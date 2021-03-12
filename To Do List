@@ -1,5 +1,5 @@
-#Upload data to github
-#Consolidate data tables
+#Upload data to github - done - michel
+#Consolidate/trim data tables - we need to determine overlap between sign start date and collision date
 #Reference the data sources in APA
 #pertinent questions posed by Dr. Paez: do we have any idea where school zones end, precise locations of collisions?
 #additional questions posed by Dr. Paez: does the speed limit of a school zone have an effect on collision event density; use k tests to evaluate the multi-scalar facets of our study
