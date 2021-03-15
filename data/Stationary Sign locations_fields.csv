@@ -1,0 +1,15 @@
+field,name
+FIELD_1,_id
+FIELD_2,address
+FIELD_3,dir
+FIELD_4,end_date
+FIELD_5,flash_speed
+geometry,geometry
+FIELD_7,min_speed
+FIELD_8,schedule
+FIELD_9,sign_id
+FIELD_10,sign_name
+FIELD_11,speed_limit
+FIELD_12,start_date
+FIELD_13,strobe_speed
+FIELD_14,ward_no
