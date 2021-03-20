@@ -1,1 +1,4 @@
-#
+#Sort fields for data:
+#Stationary signs .shp: End_Date = 0. Start_Date is on or before 2019 01 04
+#Motor Vehicle Collisions .shp: IMPACTYPE = Pedestrian Collisions. TIME = 700-2100
+#Motor con't: DATE is on or after 2019 01 04
