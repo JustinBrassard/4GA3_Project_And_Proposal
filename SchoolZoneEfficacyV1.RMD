@@ -1,12 +1,17 @@
 
 ```{r}
+rm(list = ls())
+```
+
+```{r}
 library(sp)
 library(leaflet)
 library(tidyverse)
 library(gstat)
 library(sf)
-library (readr)
+library(readr)
 ```
+
 
 ```{r}
 #right now I used the 'import dataset' tool to bring in the Excel data downloaded from the GitHub, this is trying to rip straight from GitHub
@@ -16,7 +21,7 @@ schoolsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_P
 
 Motor_Vehicle_Collisions_with_KSI_Data_True<-read_csv(url(collisionsfile))
 Stationary_Sign_Locations_True<-read_csv(url(zonesfile))
-School_Locations_True<-read_csv(url(schoolfile))
+School_Locations_True<-read_csv(url(schoolsfile))
 ```
 
 ```{r}

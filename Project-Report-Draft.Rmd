@@ -30,17 +30,12 @@ always_allow_html: true
 <!--Chunks of code can have names; the chunk option "include" controls whether the chunk and its output are printed in the final document-->
 ```{r load-packages, include=FALSE}
 # install.packages("arcos") # Install if needed, but this needs to be done only once
-library(arcos) # the `arcos` allows us to download Prescription data prepared by the Washington Post
-library(cartogram) # Package to create cartograms
-library(readxl) # package to read external data, like csv and text files
-library(sf) # package for working with geospatial data in simple features format
-library(sp) # package for working with spatial data, including utilities to create spatial weights matrices, etc.
-library(spdep) # package for spatial regression analysis
-library(stargazer) # package for creating tables with output of models 
-library(tidyverse) # family of packages for data manipulation, analysis, and visualization (includes `ggplot2`)
-library(tigris) # package `tigris` which includes boundary and other geography files for the US:
-library(plotly) # package for interactive plotting
-library(viridis) #Viridis colour scheme for mapping
+library(sp)
+library(leaflet)
+library(tidyverse)
+library(gstat)
+library(sf)
+library(readr)
 ```
 
 ```{r write-package-bib, include=FALSE}
