@@ -1,0 +1,114 @@
+
+```{r}
+library(sp)
+library(leaflet)
+library(tidyverse)
+library(gstat)
+library(sf)
+library (readr)
+```
+
+```{r}
+#right now I used the 'import dataset' tool to bring in the Excel data downloaded from the GitHub, this is trying to rip straight from GitHub
+collisionsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Motor%20Vehicle%20Collisions%20with%20KSI%20Data%20True.csv?token=AS22SR2ZGZO34O7CM56XBFTANDP44"
+zonesfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Stationary%20Sign%20locations/Stationary%20Sign%20Locations%20True%20-%20Stationary%20Sign%20locations.csv?token=AS22SR3YXJ3MMPTFKRTZFIDANDQKW"
+schoolsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/point-school-locations-wgs84/School%20Locations%20True%20-%20School%20locations-all%20types%20data.csv?token=AS22SR3J4NEF54PS3OOARYTANDQOY"
+
+Motor_Vehicle_Collisions_with_KSI_Data_True<-read_csv(url(collisionsfile))
+Stationary_Sign_Locations_True<-read_csv(url(zonesfile))
+School_Locations_True<-read_csv(url(schoolfile))
+```
+
+```{r}
+#separation of 'geometry' column into two lng & lat columns for main data sets (have to use 'lng' & 'lat' for leaflet)
+School_Zones <- Stationary_Sign_Locations_True %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
+Collisions <- Motor_Vehicle_Collisions_with_KSI_Data_True %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
+Schools <- School_Locations_True %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
+```
+
+```{r}
+#df to sf conversion of main data sets
+School_Zones.sf <- st_as_sf(School_Zones, coords = c("lng", "lat"))
+Collisions.sf <- st_as_sf(Collisions, coords = c("lng", "lat"))
+Schools.sf <- st_as_sf(Schools, coords = c("lng", "lat"))
+```
+
+
+```{r}
+#test plots
+ggplot(data = Collisions.sf) +
+  geom_sf() +
+  labs(title = "Collisions")
+
+ggplot(data = School_Zones.sf) +
+  geom_sf() +
+  labs(title = "School Zone Locations")
+
+ggplot(data = Schools.sf) +
+  geom_sf() +
+  labs(title = "School Locations")
+
+ggplot() +
+  geom_sf(data = Schools.sf, color = "grey") +
+  geom_sf(data = School_Zones.sf, color = "yellow") +
+  geom_sf(data = Collisions.sf, color = "red") +
+  labs(title = "Collisions & Schools & School Zones")
+```
+
+```{r}
+#icon creation for main leaflet (TEST)
+schoolIcon <- makeIcon(
+  iconUrl = "https://www.freeiconspng.com/uploads/school-house-icon-16.png",
+  iconWidth = 30, iconHeight = 30
+)
+zonesIcon <- makeIcon(
+  iconUrl = "https://www.freeiconspng.com/uploads/school-icon-png-40.png",
+  iconWidth = 30, iconHeight = 30
+)
+collisionsIcon <- makeIcon(
+  iconUrl = "https://www.freeiconspng.com/uploads/-alert-attention-danger-exclamation-safety-warning-icon--icon--33.png",
+  iconWidth = 30, iconHeight = 30
+)
+```
+
+```{r}
+#Main data sets leaflet (TEST)
+overview.map <- leaflet() %>% addTiles() %>%
+  addMarkers(data = Collisions.sf, icon = collisionsIcon) %>%
+  addMarkers(data = School_Zones.sf, icon = zonesIcon) %>%
+  addMarkers(data = Schools.sf, icon = schoolIcon)
+
+overview.map
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
