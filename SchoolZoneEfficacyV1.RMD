@@ -26,7 +26,7 @@ School_Locations_True<-read_csv(url(schoolsfile))
 ```
 
 ```{r}
-#separation of 'geometry' column into two lng & lat columns for main data sets (have to use 'lng' & 'lat' for leaflet)
+#separation of 'geometry' column into two lng & lat columns for main data sets
 School_Zones <- Stationary_Sign_Locations_True %>%
   separate(geometry, into = c('lng', 'lat'), sep = ', ')
 Collisions <- Motor_Vehicle_Collisions_with_KSI_Data_True %>%
