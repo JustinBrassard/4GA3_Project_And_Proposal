@@ -4,10 +4,10 @@ thanks: Paper submitted to complete the requirements of ENVSOCTY 4GA3 Applied Sp
   Statistics.
 date: "4/9/2021"
 output:
-  html_document:
-    df_print: paged
   pdf_document:
     template: project-template-default.tex
+  html_document:
+    df_print: paged
 abstract: This paper reports our analysis of motor vehicle collisions in Toronto,
   Canada, and its relationship with the presence of school safety zones. Data were
   obtained from the City of Toronto open data website, as well as the City of Toronto
@@ -46,8 +46,8 @@ knitr::write_bib(file = 'packages.bib')
 ```
 
 ```{r read-census-data, include=FALSE}
-income_fip <- read_excel("data/income.fip.xlsx")
-education_ky <- read_excel("data/education_ky.xlsx")
+# income_fip <- read_excel("data/income.fip.xlsx")
+# education_ky <- read_excel("data/education_ky.xlsx")
 ```
 
 <!--This format should be used to comment out sections of code/text. Or just use [Shift + Ctrl + C] - MG-->
@@ -157,17 +157,17 @@ ggplot() +
 <!-- To begin this research study, data was collected in order to create a general understanding of the trends. This includes the history of opioid use in Kentucky. Figure \ref{fig:annual-dosage} shows the general pattern of opioid use across counties in Kentucky, depicting pills per person, from 2006 to 2014.  -->
 
 ```{r plot-annual-dosage, echo=FALSE, fig.cap={"\\label{fig:annual-dosage}Annual opioid pills per person by county in Kentucky, USA (2006-2014)"}}
-ggplot() +
-  geom_sf(data = KY, 
-          aes(fill = per_person, 
-              color = per_person)) + 
-  scale_fill_viridis(direction = -1, option = "B")+
-  scale_color_viridis(direction = -1, option ="B") +
-  #coord_sf(crs = 26915) + This crs is NAD83 UTM zone 15N - not really needed for plotting here but projecting the data may be required later
-  theme_void()+
-  theme(panel.grid.major = element_line(colour = 'transparent')) +
-  labs(caption="Source: The Washington Post, ARCOS") +
-  facet_wrap (~ year, ncol =2)
+# ggplot() +
+#   geom_sf(data = KY, 
+#           aes(fill = per_person, 
+#               color = per_person)) + 
+#   scale_fill_viridis(direction = -1, option = "B")+
+#   scale_color_viridis(direction = -1, option ="B") +
+#   #coord_sf(crs = 26915) + This crs is NAD83 UTM zone 15N - not really needed for plotting here but projecting the data may be required later
+#   theme_void()+
+#   theme(panel.grid.major = element_line(colour = 'transparent')) +
+#   labs(caption="Source: The Washington Post, ARCOS") +
+#   facet_wrap (~ year, ncol =2)
 ```
 
 <!-- Similar to Figure \ref{fig:annual-dosage}, a nine-year average showing opioid use, of pills per person, for each county can be made (see Figure \ref{fig:mean-annual-dosage}). This provides a clearer distinction of changes in each county over the years in a single map, rather than several maps. -->
@@ -184,156 +184,156 @@ KY_AVG_Per <- KY %>%
 
 ```{r map-mean-per-person-dose, echo=FALSE, fig.cap={"\\label{fig:mean-annual-dosage}Mean annual opioid pills per person by county in Kentucky, USA (9-year average, 2006-2014)"}}
 #Map the average dosage unit per person per year from 2006-2014.
-ggplot() +
-  geom_sf(data = KY_AVG_Per, 
-          aes(fill = per_person),
-          color = "white") + 
-  scale_fill_viridis(direction = -1, 
-                     option = "B", 
-                     name="Pills per capita") +
-  theme_void()+
-  theme(panel.grid.major = element_line(colour = 'transparent')) +
-  labs(caption="Source: The Washington Post, ARCOS") 
+# ggplot() +
+#   geom_sf(data = KY_AVG_Per, 
+#           aes(fill = per_person),
+#           color = "white") + 
+#   scale_fill_viridis(direction = -1, 
+#                      option = "B", 
+#                      name="Pills per capita") +
+#   theme_void()+
+#   theme(panel.grid.major = element_line(colour = 'transparent')) +
+#   labs(caption="Source: The Washington Post, ARCOS") 
 ```
 
 <!-- Figure \ref{fig:cartogram-mean-annual-dosage} is a cartogram showing regions with high usage of opioids. This cartogram emphasizes the highest changes in purchases in pills in each county over the selected nine years. -->
 ```{r create-cartogram, include=FALSE}
-KY_per_person_cartogram <- KY_AVG_Per %>%
-  st_transform(crs = 26916) %>%
-  cartogram_cont(weight = "per_person")
+# KY_per_person_cartogram <- KY_AVG_Per %>%
+#   st_transform(crs = 26916) %>%
+#   cartogram_cont(weight = "per_person")
 ```
 
 ```{r map-per-person-dose-cartogram, echo=FALSE, fig.cap={"\\label{fig:cartogram-mean-annual-dosage}Cartogram of mean annual opioid pills per person by county in Kentucky, USA (9-year average, 2006-2014)"}}
-ggplot(KY_per_person_cartogram, aes(fill = per_person)) +
-  geom_sf(color = "white") + 
-  scale_fill_viridis(direction = -1, option = "B", name="Pills per Person")+
-  theme_void() +
-  theme(panel.grid.major = element_line(colour = 'transparent')) +
-  labs(caption="Source: The Washington Post, ARCOS")
+# ggplot(KY_per_person_cartogram, aes(fill = per_person)) +
+#   geom_sf(color = "white") + 
+#   scale_fill_viridis(direction = -1, option = "B", name="Pills per Person")+
+#   theme_void() +
+#   theme(panel.grid.major = element_line(colour = 'transparent')) +
+#   labs(caption="Source: The Washington Post, ARCOS")
 ```
 
 <!-- Next, a series of maps were created; five choropleth maps with simulated spatial moving averages and a sixth with the empirical spatial moving averages. Figure \ref{fig:simulated-landscapes} is the original landscape of the average dosage unit per person compared to the five null landscapes. -->
 ```{r create-contiguities-object, include=FALSE}
 # Create listw object
-KY_Pills.w <- KY_AVG_Per %>% 
-  as("Spatial") %>% 
-  poly2nb() %>%
-  nb2listw()
+# KY_Pills.w <- KY_AVG_Per %>% 
+#   as("Spatial") %>% 
+#   poly2nb() %>%
+#   nb2listw()
 ```
 
 ```{r calculate-spatial-moving-averages, include=FALSE}
 # Observed data
-KY_AVG_Per <- KY_AVG_Per %>%
-  mutate(sma = lag.listw(KY_Pills.w, per_person))
-
-# Null landscape/simulation #1
-simulation_1 <- sample(KY_AVG_Per$per_person)
-# Calculate spatial moving average
-simulation_1.sma <- lag.listw(KY_Pills.w, simulation_1)
-# Null landscape/simulation #2
-simulation_2 <- sample(KY_AVG_Per$per_person)
-simulation_2.sma <- lag.listw(KY_Pills.w, simulation_2)
-
-# Null landscape/simulation #3
-simulation_3 <- sample(KY_AVG_Per$per_person)
-simulation_3.sma <- lag.listw(KY_Pills.w, simulation_3)
-
-# Null landscape/simulation #4
-simulation_4 <- sample(KY_AVG_Per$per_person)
-simulation_4.sma <- lag.listw(KY_Pills.w, simulation_4)
-
-# Null landscape/simulation #5
-simulation_5 <- sample(KY_AVG_Per$per_person)
-simulation_5.sma <- lag.listw(KY_Pills.w, simulation_5)
+# KY_AVG_Per <- KY_AVG_Per %>%
+#   mutate(sma = lag.listw(KY_Pills.w, per_person))
+# 
+# # Null landscape/simulation #1
+# simulation_1 <- sample(KY_AVG_Per$per_person)
+# # Calculate spatial moving average
+# simulation_1.sma <- lag.listw(KY_Pills.w, simulation_1)
+# # Null landscape/simulation #2
+# simulation_2 <- sample(KY_AVG_Per$per_person)
+# simulation_2.sma <- lag.listw(KY_Pills.w, simulation_2)
+# 
+# # Null landscape/simulation #3
+# simulation_3 <- sample(KY_AVG_Per$per_person)
+# simulation_3.sma <- lag.listw(KY_Pills.w, simulation_3)
+# 
+# # Null landscape/simulation #4
+# simulation_4 <- sample(KY_AVG_Per$per_person)
+# simulation_4.sma <- lag.listw(KY_Pills.w, simulation_4)
+# 
+# # Null landscape/simulation #5
+# simulation_5 <- sample(KY_AVG_Per$per_person)
+# simulation_5.sma <- lag.listw(KY_Pills.w, simulation_5)
 ```
 
 ```{r add-simulated-landscapes, include=FALSE}
 #Add simulated landscapes to sf dataframe
-KY_AVG_Per$simulation_1 <- simulation_1
-KY_AVG_Per$simulation_2 <- simulation_2
-KY_AVG_Per$simulation_3 <- simulation_3
-KY_AVG_Per$simulation_4 <- simulation_4
-KY_AVG_Per$simulation_5 <- simulation_5
-
-#Add spatial moving averages to sf dataframe
-KY_AVG_Per$simulation_1.sma <- simulation_1.sma
-KY_AVG_Per$simulation_2.sma <- simulation_2.sma
-KY_AVG_Per$simulation_3.sma <- simulation_3.sma
-KY_AVG_Per$simulation_4.sma <- simulation_4.sma
-KY_AVG_Per$simulation_5.sma <- simulation_5.sma
+# KY_AVG_Per$simulation_1 <- simulation_1
+# KY_AVG_Per$simulation_2 <- simulation_2
+# KY_AVG_Per$simulation_3 <- simulation_3
+# KY_AVG_Per$simulation_4 <- simulation_4
+# KY_AVG_Per$simulation_5 <- simulation_5
+# 
+# #Add spatial moving averages to sf dataframe
+# KY_AVG_Per$simulation_1.sma <- simulation_1.sma
+# KY_AVG_Per$simulation_2.sma <- simulation_2.sma
+# KY_AVG_Per$simulation_3.sma <- simulation_3.sma
+# KY_AVG_Per$simulation_4.sma <- simulation_4.sma
+# KY_AVG_Per$simulation_5.sma <- simulation_5.sma
 ```
 
 ```{r gather-simulated-landscapes, include=FALSE}
 #Create a new dataframe to compare original landscape to null landscapes
-KY_AVG2 <- KY_AVG_Per %>% 
-  # `transmute()` keeps only the spatial moving averages and geometry
-  transmute(observed = per_person, 
-         simulation_1,
-         simulation_2,
-         simulation_3,
-         simulation_4,
-         simulation_5,
-         geometry) %>% 
-  # `pivot_longer()` places all variables with the exception of `geometry` in a single column named `SMA` and creates a new variable called `VAR` with the names of the original columns (i.e., observed, simulation_1,...)
-  pivot_longer(cols = -c(geometry, ends_with("sma")), names_to = "VAR", values_to = "values") %>%
-  st_as_sf()
+# KY_AVG2 <- KY_AVG_Per %>% 
+#   # `transmute()` keeps only the spatial moving averages and geometry
+#   transmute(observed = per_person, 
+#          simulation_1,
+#          simulation_2,
+#          simulation_3,
+#          simulation_4,
+#          simulation_5,
+#          geometry) %>% 
+#   # `pivot_longer()` places all variables with the exception of `geometry` in a single column named `SMA` and creates a new variable called `VAR` with the names of the original columns (i.e., observed, simulation_1,...)
+#   pivot_longer(cols = -c(geometry, ends_with("sma")), names_to = "VAR", values_to = "values") %>%
+#   st_as_sf()
 ```
 
 ```{r map-simulated-landscapes, echo=FALSE, fig.cap={"\\label{fig:simulated-landscapes}Maps showing the empirical distribution of mean annual opioid pills per person and five simulated landscapes"}}
-ggplot() + 
-  geom_sf(data = KY_AVG2, 
-          aes(fill = values), color = NA) + 
-  facet_wrap(~VAR, ncol = 3) +
-  scale_fill_viridis(direction = -1, option = "B")+
-  labs(fill = "Pills per SMA") + 
-  theme(axis.text.x = element_blank(), 
-        axis.text.y = element_blank())
+# ggplot() + 
+#   geom_sf(data = KY_AVG2, 
+#           aes(fill = values), color = NA) + 
+#   facet_wrap(~VAR, ncol = 3) +
+#   scale_fill_viridis(direction = -1, option = "B")+
+#   labs(fill = "Pills per SMA") + 
+#   theme(axis.text.x = element_blank(), 
+#         axis.text.y = element_blank())
 ```
 
 <!-- By plotting the data of the spatial moving averages in Figure \ref{fig:simulated-landscapes}, the data can be further analyzed. The plots of the empirical and simulated spatial moving averages are shown in Figure \ref{fig:scatterplot-moving-averages}. -->
 
 ```{r gather-moving-averages-2, echo=FALSE}
-KY_AVG2 <- KY_AVG2 %>% 
-  data.frame(KY_AVG_Per %>% 
-               st_drop_geometry() %>% # Drop the geometry because it is already available 
-               # Select the original population density and the 5 null landscapes simulated from it.
-               transmute(sma,
-                      simulation_1.sma,
-                      simulation_2.sma,
-                      simulation_3.sma,
-                      simulation_4.sma,
-                      simulation_5.sma,
-               ) %>% # Pass the result to `pivot_longer()`  
-               pivot_longer(cols = everything(), names_to = "VAR", values_to = "SMA") %>% # Copy all density variables to a single column, and create a new variable called `VAR` with the names of the original columns 
-               select(SMA)) # Drop VAR from the the dataframe
+# KY_AVG2 <- KY_AVG2 %>% 
+#   data.frame(KY_AVG_Per %>% 
+#                st_drop_geometry() %>% # Drop the geometry because it is already available 
+#                # Select the original population density and the 5 null landscapes simulated from it.
+#                transmute(sma,
+#                       simulation_1.sma,
+#                       simulation_2.sma,
+#                       simulation_3.sma,
+#                       simulation_4.sma,
+#                       simulation_5.sma,
+#                ) %>% # Pass the result to `pivot_longer()`  
+#                pivot_longer(cols = everything(), names_to = "VAR", values_to = "SMA") %>% # Copy all density variables to a single column, and create a new variable called `VAR` with the names of the original columns 
+#                select(SMA)) # Drop VAR from the the dataframe
 ```
 
 
 ```{r spatial-moving-averages, echo=FALSE, fig.cap={"\\label{fig:scatterplot-moving-averages}Moran's scatterplots of empirical and simulated spatial moving averages of mean annual opioid pills per person"}}
-ggplot(data = KY_AVG2, 
-       aes(x = values, 
-           y = SMA,
-           color = VAR)) +
-  geom_point(alpha = 0.1) +
-  geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
-  # Add a fitted line to the plots
-  geom_smooth(formula = y ~ x,
-              method = "lm") +
-  coord_equal() +
-  xlab("Pills per person") +
-  ylab("Spatial lag of pills per person") +
-  facet_wrap(~ VAR, ncol = 3)
+# ggplot(data = KY_AVG2, 
+#        aes(x = values, 
+#            y = SMA,
+#            color = VAR)) +
+#   geom_point(alpha = 0.1) +
+#   geom_abline(slope = 1, intercept = 0, linetype = "dashed") +
+#   # Add a fitted line to the plots
+#   geom_smooth(formula = y ~ x,
+#               method = "lm") +
+#   coord_equal() +
+#   xlab("Pills per person") +
+#   ylab("Spatial lag of pills per person") +
+#   facet_wrap(~ VAR, ncol = 3)
 ```
 
 ```{r include=FALSE}
-KY_AVG_Per <- KY_AVG_Per %>% 
-  # Modify values in dataframe
-  mutate(Rate_z = per_person - mean(per_person), # Substract the mean, so that the variable now is deviations from the mean 
-         SMA_z = lag.listw(KY_Pills.w, Rate_z)) # Calculate the spatial moving average of the newly created variable `Density_z`
+# KY_AVG_Per <- KY_AVG_Per %>% 
+#   # Modify values in dataframe
+#   mutate(Rate_z = per_person - mean(per_person), # Substract the mean, so that the variable now is deviations from the mean 
+#          SMA_z = lag.listw(KY_Pills.w, Rate_z)) # Calculate the spatial moving average of the newly created variable `Density_z`
 ```
 
 ```{r moran-test, include=FALSE}
-mc <- moran.test(KY_AVG_Per$per_person, KY_Pills.w)
+# mc <- moran.test(KY_AVG_Per$per_person, KY_Pills.w)
 ```
 
 <!--We can include inline calculations in the text by using r code as shown in the paragraph below-->
@@ -342,107 +342,107 @@ mc <- moran.test(KY_AVG_Per$per_person, KY_Pills.w)
 
 ```{r moran-scatterplot, echo=FALSE, fig.cap={"\\label{fig:moran-scatterplot}Moran's scatterplot of empirical variable (observed)"}}
 # Confirming the results from the Moran coefficient above. We use "moran.plot" to illustrate the SMA of rate by county
-mp <- moran.plot(KY_AVG_Per$per_person, 
-                 KY_Pills.w,
-                 xlab = "Pills per person",
-                 ylab = "Spatial lag of pills per person")
+# mp <- moran.plot(KY_AVG_Per$per_person, 
+#                  KY_Pills.w,
+#                  xlab = "Pills per person",
+#                  ylab = "Spatial lag of pills per person")
 ```
 
 <!-- Figure \ref{fig:lisa} is a plot of the local indicators of spatial association (LISA), that is the local version of Moran's I. As seen in Moran's scatterplot (Figure \ref{fig:moran-scatterplot}), a county can have high levels of pills per capita (higher than the global mean), and be surrounded by counties that on average have high levels of pills per capita. This combination is termed "High-High". Another possibility is that a county has low levels of pills per capita (below the global mean), and the neighboring counties have also on average low levels of pills per capita. This combination is termed "Low-Low". The other two combinations are "High-Low" and "Low-High". Calculating the LISA allows us to categorize counties into one of these classes. Further, if we map these statistics we can visualize concentrations of high or low values, or transition zones. This type of map also makes it easy to visualize where a statistic is significant or not. It allows for easy analysis to detect _hot spots_, regions with high levels of pills per capita, or cold spots, regions with low levels of pills per capita. In Figure \ref{fig:lisa}, the statistic that can either be significant or not. -->
 
 ```{r lisa, include=FALSE}
-Per_person.lm <- localmoran(KY_AVG_Per$per_person, KY_Pills.w)
-summary(Per_person.lm)
+# Per_person.lm <- localmoran(KY_AVG_Per$per_person, KY_Pills.w)
+# summary(Per_person.lm)
 ```
 
 ```{r join-lisa-to-data, echo=FALSE}
-KY_AVG_Per <- left_join(KY_AVG_Per, 
-                        data.frame(GEOID = KY_AVG_Per$GEOID, 
-                                   Per_person.lm), 
-                        by = c("GEOID"))
-KY_AVG_Per <- rename(KY_AVG_Per, p.val = Pr.z...0.)
+# KY_AVG_Per <- left_join(KY_AVG_Per, 
+#                         data.frame(GEOID = KY_AVG_Per$GEOID, 
+#                                    Per_person.lm), 
+#                         by = c("GEOID"))
+# KY_AVG_Per <- rename(KY_AVG_Per, p.val = Pr.z...0.)
 ```
 
 ```{r lisa-map, echo = FALSE, fig.cap={"\\label{fig:lisa}Map of local statistics of spatial association, used to detect hot and cold spots"}}
 # Now it is possible to map the local statistics:
 #plot_ly(KY_AVG_Per) %>%
 #  add_sf(split = ~(p.val < 0.05), color = ~Type, colors = c("red", "khaki1", "dodgerblue", "dodgerblue4")) 
-KY_AVG_Per %>%
-  mutate(significance = p.val <= 0.05,
-         Type = case_when((Rate_z >= 0 & SMA_z >= 0) & significance == TRUE ~ "HH significant",
-                          (Rate_z >= 0 & SMA_z >= 0) & significance == FALSE ~ "HH not significant",
-                          (Rate_z < 0 & SMA_z < 0) & significance == TRUE ~ "LL significant",
-                          (Rate_z < 0 & SMA_z < 0) & significance == FALSE ~ "LL not significant",
-                          (Rate_z * SMA_z < 0) & significance == TRUE ~ "HL/LH significant",
-                          (Rate_z * SMA_z < 0) & significance == FALSE ~ "HL/LH not significant"),
-         Type = factor(Type,
-                       levels = c("HH significant",
-                                  "HH not significant",
-                                  "HL/LH significant",
-                                  "HL/LH not significant",
-                                  "LL significant",
-                                  "LL not significant"))) %>%
-  ggplot() +
-  geom_sf(aes(fill = Type),
-          color = "gray80") + 
-  scale_fill_manual(values = c("HH significant" = "red", 
-                               "HH not significant" = "rosybrown1",
-                               "LL significant" = "dodgerblue",
-                               "LL not significant" = "lightblue",
-                               "HL/LH significant" = "gray",
-                               "HL/LH not significant" = "white")) +
-  theme_void() +
-  theme(panel.grid.major = element_line(colour = 'transparent'))
+# KY_AVG_Per %>%
+#   mutate(significance = p.val <= 0.05,
+#          Type = case_when((Rate_z >= 0 & SMA_z >= 0) & significance == TRUE ~ "HH significant",
+#                           (Rate_z >= 0 & SMA_z >= 0) & significance == FALSE ~ "HH not significant",
+#                           (Rate_z < 0 & SMA_z < 0) & significance == TRUE ~ "LL significant",
+#                           (Rate_z < 0 & SMA_z < 0) & significance == FALSE ~ "LL not significant",
+#                           (Rate_z * SMA_z < 0) & significance == TRUE ~ "HL/LH significant",
+#                           (Rate_z * SMA_z < 0) & significance == FALSE ~ "HL/LH not significant"),
+#          Type = factor(Type,
+#                        levels = c("HH significant",
+#                                   "HH not significant",
+#                                   "HL/LH significant",
+#                                   "HL/LH not significant",
+#                                   "LL significant",
+#                                   "LL not significant"))) %>%
+#   ggplot() +
+#   geom_sf(aes(fill = Type),
+#           color = "gray80") + 
+#   scale_fill_manual(values = c("HH significant" = "red", 
+#                                "HH not significant" = "rosybrown1",
+#                                "LL significant" = "dodgerblue",
+#                                "LL not significant" = "lightblue",
+#                                "HL/LH significant" = "gray",
+#                                "HL/LH not significant" = "white")) +
+#   theme_void() +
+#   theme(panel.grid.major = element_line(colour = 'transparent'))
 ```
 
 <!-- Figure \ref{fig:household-income} represents the mean annual household income in the counties in Kentucky. The darker the regions, the higher the yearly income. This map shows the general trend for income (2010) which is one of the variables that is used to analyze opioid usage in Kentucky. -->
 
 ```{r join-income-data, echo=FALSE}
-income_fip <- income_fip %>%  
-  rename(income = Mean) %>%
-  mutate(GEOID = as.character(GEOID))
-KY_AVG_Per <- KY_AVG_Per %>% 
-  left_join(income_fip,
-            by=("GEOID"))
+# income_fip <- income_fip %>%  
+#   rename(income = Mean) %>%
+#   mutate(GEOID = as.character(GEOID))
+# KY_AVG_Per <- KY_AVG_Per %>% 
+#   left_join(income_fip,
+#             by=("GEOID"))
 ```
 
 ```{r map-household-income, echo=FALSE, fig.cap={"\\label{fig:household-income}Mean annual household income in 2010"}}
-ggplot() +
-  geom_sf(data = KY_AVG_Per, 
-          aes(fill = income/10000),
-          color = "white") + 
-  scale_fill_viridis(direction = -1, 
-                     option = "B",
-                     name = "Mean household income ($10,000)") +
-  theme_void() +
-  theme(panel.grid.major = element_line(colour = 'transparent'),
-        legend.position = "bottom") +
-  labs(caption="Source: US Census Bureau")
+# ggplot() +
+#   geom_sf(data = KY_AVG_Per, 
+#           aes(fill = income/10000),
+#           color = "white") + 
+#   scale_fill_viridis(direction = -1, 
+#                      option = "B",
+#                      name = "Mean household income ($10,000)") +
+#   theme_void() +
+#   theme(panel.grid.major = element_line(colour = 'transparent'),
+#         legend.position = "bottom") +
+#   labs(caption="Source: US Census Bureau")
 ```
 
 <!-- The second variable that is analyzed with opioid usage is education. Figure \ref{fig:education} displays the percent of the population in each county who received a high school diploma by 2014. This data will also be compared to the opioid use of Kentucky. -->
 
 ```{r join-education-data, echo=FALSE}
-education_ky <- education_ky %>%  
-  mutate(GEOID = as.character(GEOID))
-
-KY_AVG_Per <- KY_AVG_Per %>%
-  left_join(education_ky, 
-            by=("GEOID"))
+# education_ky <- education_ky %>%  
+#   mutate(GEOID = as.character(GEOID))
+# 
+# KY_AVG_Per <- KY_AVG_Per %>%
+#   left_join(education_ky, 
+#             by=("GEOID"))
 ```
 
 ```{r map-education-data, echo=FALSE, fig.cap={"\\label{fig:education}Educational attainment in Kentucky: percent of population with high school degree or higher (2014)"}}
-ggplot() +
-  geom_sf(data = KY_AVG_Per,
-          aes(fill = HSDeg),
-          color = "white") +
-  scale_fill_viridis(direction = -1, 
-                     option = "B",
-                     name = "% of population") +
-  theme_void() + 
-  theme(panel.grid.major = element_line(colour = 'transparent'),
-        legend.position = "bottom") +
-  labs(caption="Source: US Census Bureau")
+# ggplot() +
+#   geom_sf(data = KY_AVG_Per,
+#           aes(fill = HSDeg),
+#           color = "white") +
+#   scale_fill_viridis(direction = -1, 
+#                      option = "B",
+#                      name = "% of population") +
+#   theme_void() + 
+#   theme(panel.grid.major = element_line(colour = 'transparent'),
+#         legend.position = "bottom") +
+#   labs(caption="Source: US Census Bureau")
 ```
 
 <!-- To determine relationships between opioid use and the chosen variables, they must be regressed to the opioid use data. Figure 12 shows the average household income per county in Kentucky regressed to the number of opioid pills per person. Figure 13 shows the percent of the population per county that has obtained a high school degree regressed to the number of opioid pills per person. -->
@@ -456,48 +456,48 @@ ggplot() +
 
 ```{r model-income, echo=FALSE, message=FALSE, results="asis"}
 # Use `lm()` to estimate a linear regression model
-model1 <- lm(formula = per_person ~ income, 
-             data = KY_AVG_Per)
-
-# Use stargazer to print table with results of model
-stargazer(model1,
-          header = FALSE,
-          title = "Mean annual opioid pills per person regressed on mean household income")
+# model1 <- lm(formula = per_person ~ income, 
+#              data = KY_AVG_Per)
+# 
+# # Use stargazer to print table with results of model
+# stargazer(model1,
+#           header = FALSE,
+#           title = "Mean annual opioid pills per person regressed on mean household income")
 ```
 
 ```{r plot-model-income, echo = FALSE, fig.cap={"\\label{fig:model-income}Regression analysis of income and mean annual opioid pills per person"}}
-ggplot(data = KY_AVG_Per, 
-       aes(x = income, 
-           y = per_person))+
-  geom_point() +
-  geom_smooth(formula = y ~ x,
-              method = "lm") +
-  xlab("Mean annual household income") +
-  ylab("Pills per person")
+# ggplot(data = KY_AVG_Per, 
+#        aes(x = income, 
+#            y = per_person))+
+#   geom_point() +
+#   geom_smooth(formula = y ~ x,
+#               method = "lm") +
+#   xlab("Mean annual household income") +
+#   ylab("Pills per person")
 ```
 
 \newpage
 
 ```{r model-education, echo=FALSE, message=FALSE, results="asis"}
 # Use `lm()` to estimate a linear regression model
-model2 <- lm(formula = per_person ~ HSDeg,
-             data = KY_AVG_Per)
-
-# Use stargazer to print table with results of model
-stargazer(model2,
-          header = FALSE,
-          title = "Mean annual opioid pills per person regressed on proportion of population with high school degree or higher")
+# model2 <- lm(formula = per_person ~ HSDeg,
+#              data = KY_AVG_Per)
+# 
+# # Use stargazer to print table with results of model
+# stargazer(model2,
+#           header = FALSE,
+#           title = "Mean annual opioid pills per person regressed on proportion of population with high school degree or higher")
 ```
 
 ```{r plot-model-education, echo=FALSE, fig.cap={"\\label{fig:model-education}Regression analysis of educational attainement and mean annual opioid pills per person"}}
-ggplot(data = KY_AVG_Per, 
-       aes(x = HSDeg, 
-           y = per_person))+
-  geom_point() +
-  geom_smooth(formula = y ~ x,
-              method = "lm") +
-  xlab("% population highschool or above") +
-  ylab("Pills per person") 
+# ggplot(data = KY_AVG_Per, 
+#        aes(x = HSDeg, 
+#            y = per_person))+
+#   geom_point() +
+#   geom_smooth(formula = y ~ x,
+#               method = "lm") +
+#   xlab("% population highschool or above") +
+#   ylab("Pills per person") 
 ```
 
 \newpage
