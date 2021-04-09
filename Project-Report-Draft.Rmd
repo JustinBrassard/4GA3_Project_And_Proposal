@@ -332,13 +332,6 @@ KY_AVG_Per <- KY %>%
 #          SMA_z = lag.listw(KY_Pills.w, Rate_z)) # Calculate the spatial moving average of the newly created variable `Density_z`
 ```
 
-```{r moran-test, include=FALSE}
-# mc <- moran.test(KY_AVG_Per$per_person, KY_Pills.w)
-```
-
-<!--We can include inline calculations in the text by using r code as shown in the paragraph below-->
-
-<!-- To further explore and understand the opioid use data, the spatial autocorrelation can be calculated. Figure \ref{fig:moran-scatterplot} is a Moran's scatterplot of the observed number of pills per person. The standardized value of the Moran's I statistic is `r round(mc$statistic, 4)` and the corresponding $p$-value is `r ifelse(mc$p.value >= 0.0001, round(mc.pvalue, 4), "<0.0001")`. The null hypothesis is spatial independence. Since the $p$-value is a small number, we can reject the null hypothesis with a high degree of confidence. -->
 
 ```{r moran-scatterplot, echo=FALSE, fig.cap={"\\label{fig:moran-scatterplot}Moran's scatterplot of empirical variable (observed)"}}
 # Confirming the results from the Moran coefficient above. We use "moran.plot" to illustrate the SMA of rate by county

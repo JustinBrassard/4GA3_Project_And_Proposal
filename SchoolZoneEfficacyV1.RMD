@@ -98,7 +98,50 @@ summary(Collisions.sf)
 library(spatstat)
 library(maptools)
 ```
+```{r}
+library(geog4ga3)
+```
 
+```{r}
+data("Toronto")
+```
+
+```{r}
+st_crs(Toronto)
+```
+
+```{r}
+Toronto.owin <- as.owin(as(Toronto, "Spatial")) # Requires `maptools` package
+```
+
+```{r}
+collisions.ppp <- as.ppp(st_coordinates(Collisions.sf), W = Toronto.owin)
+```
+
+```{r}
+summary(collisions.ppp)
+```
+```{r}
+q_count <- quadratcount(collisions.ppp, nx = 3, ny = 3)
+table(q_count)
+```
+
+```{r}
+plot(q_count)
+```
+
+```{r}
+q_test <- quadrat.test(collisions.ppp, nx = 3, ny = 3)
+q_test
+```
+
+```{r}
+plot(q_test)
+```
+
+```{r}
+collisions.ppp <- as.ppp(Collisions.sf, W = Toronto.owin)
+```
 
 ```{r}
 toronto_boundary <- st_read(
