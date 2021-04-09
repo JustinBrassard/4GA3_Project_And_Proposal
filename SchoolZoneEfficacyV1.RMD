@@ -42,7 +42,6 @@ Collisions.sf <- st_as_sf(Collisions, coords = c("lng", "lat"))
 Schools.sf <- st_as_sf(Schools, coords = c("lng", "lat"))
 ```
 
-
 ```{r}
 #test plots
 ggplot(data = Collisions.sf) +
@@ -89,6 +88,48 @@ overview.map <- leaflet() %>% addTiles() %>%
 
 overview.map
 ```
+
+```{r}
+summary(Collisions.sf)
+```
+# trying to do quadrat analaysis, but i need to create a window first
+
+```{r}
+library(spatstat)
+library(maptools)
+```
+
+
+```{r}
+toronto_boundary <- st_read(
+  "data/toronto-boundary-wgs84/citygcs_regional_mun_wgs84.shp")
+```
+
+```{r}
+class(toronto_boundary)
+```
+
+
+```{r}
+boundary_one <- st_union(toronto_boundary)
+plot(boundary_one)
+```
+
+```{r}
+boundary_flat <- st_transform(boundary_one, crs = 4326)
+plot(boundary_flat)
+```
+
+```{r}
+boundary_w <- as.owin(as_Spatial(boundary_flat))
+```
+
+```{r}
+collisions.ppp <- as.ppp(Collisions.sf, W = boundary_w)
+```
+
+
+
 
 
 
