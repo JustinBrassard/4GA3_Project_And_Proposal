@@ -1,5 +1,4 @@
 
-
 ```{r}
 rm(list = ls())
 ```
@@ -18,15 +17,21 @@ library(dplyr)
 
 
 ```{r}
-#right now I used the 'import dataset' tool to bring in the Excel data downloaded from the GitHub, this is trying to rip straight from GitHub
+#importing necessary files from GitHub
+
 collisionsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Motor%20Vehicle%20Collisions%20with%20KSI%20Data%20True.csv?token=AS22SR2ZGZO34O7CM56XBFTANDP44"
+
 zonesfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Stationary%20Sign%20locations/Stationary%20Sign%20Locations%20True%20-%20Stationary%20Sign%20locations.csv?token=AS22SR3YXJ3MMPTFKRTZFIDANDQKW"
+
 schoolsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/point-school-locations-wgs84/School%20Locations%20True%20-%20School%20locations-all%20types%20data.csv?token=AS22SR3J4NEF54PS3OOARYTANDQOY"
+
+boundsfile <- "https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Toronto%20Boundary%20Points%20UTM15N/Toronto_Points.csv"
 
 
 Motor_Vehicle_Collisions_with_KSI_Data_True<-read_csv(url(collisionsfile))
 Stationary_Sign_Locations_True<-read_csv(url(zonesfile))
 School_Locations_True<-read_csv(url(schoolsfile))
+Toronto_Points<-read_csv(url(boundsfile))
 ```
 
 ```{r}
@@ -131,6 +136,11 @@ CollisionsPCS <- as(Collisions.trfm, "SpatialPoints")
 
 #USE FOR QUADRAT
 CollisionsPCS.sf <- st_as_sf(CollisionsPCS)
+Collisionscopy.sf <- Collisions.sf
+Collisionscopy.sf[, "geometry"] <- CollisionsPCS.sf[,"geometry"]
+
+#USE 'CollisionsPCS.sf' FOR QUADRAT
+CollisionsPCS.sf <- Collisionscopy.sf
 #######################################################################################
 
 SchoolsXY <- Schools %>%
@@ -145,8 +155,13 @@ Schools.trfm <- spTransform(SchoolsXY, CRS("+proj=utm +zone=15 ellps=WGS84"))
 Schools.trfm
 SchoolsPCS <- as(Schools.trfm, "SpatialPoints")
 
-#USE FOR QUADRAT
+
 SchoolsPCS.sf <- st_as_sf(SchoolsPCS)
+Schoolscopy.sf <- Schools.sf
+Schoolscopy.sf[, "geometry"] <- SchoolsPCS.sf[,"geometry"]
+
+#USE 'SchoolsPCS.sf' FOR QUADRAT
+SchoolsPCS.sf <- Schoolscopy.sf
 #######################################################################################
 
 School_ZonesXY <- School_Zones %>%
@@ -163,6 +178,11 @@ School_ZonesPCS <- as(School_Zones.trfm, "SpatialPoints")
 
 #USE FOR QUADRAT
 School_ZonesPCS.sf <- st_as_sf(School_ZonesPCS)
+zonescopy.sf <- School_Zones.sf
+zonescopy.sf[, "geometry"] <- School_ZonesPCS.sf[,"geometry"]
+
+#USE 'SchoolsPCS.sf' FOR QUADRAT
+School_ZonesPCS.sf <- zonescopy.sf
 #######################################################################################
 ```
 
