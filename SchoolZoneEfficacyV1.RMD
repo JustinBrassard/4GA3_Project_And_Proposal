@@ -105,34 +105,39 @@ overview.map
 ```
 #HEATMAP ANALYSIS
 ```{r}
+#leaflet map containing the point locations of 2019 collisions
 collisions.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon)
 
 collisions.map
 
-
+#creation of 2019 collisions heatmap
 collisions.hmap <- leaflet(data = Collisions) %>% 
   setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
   addTiles()
 
+#setting necessary coords as numeric values
 Collisions$lng <- as.numeric(Collisions$lng)
 Collisions$lat <- as.numeric(Collisions$lat)
 Full_Collisions$lng <- as.numeric(Full_Collisions$lng)
 Full_Collisions$lat <- as.numeric(Full_Collisions$lat)
 
+#2019 collisions heatmap (will add necessary map elements like a title soon)
 collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 17)
 
+#2019 collisions heatmap with school zone markers (will add necessary map elements like a title soon)
 collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
-             blur = 40, max = 1, radius = 17) %>%
+             blur = 40, max = 1, radius = 16) %>%
               addMarkers(data = School_Zones.sf, icon = zonesIcon)
 
+#2006 – 2019 collisions heatmap with school zone markers (will add necessary map elements like a title soon)
 fullcollisions.hmap <- leaflet(data = Full_Collisions) %>% 
   setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
   addTiles()
 
 fullcollisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
-             blur = 40, max = 1, radius = 15) %>%
+             blur = 40, max = 1, radius = 16) %>%
               addMarkers(data = School_Zones.sf, icon = zonesIcon)
 
 ```
