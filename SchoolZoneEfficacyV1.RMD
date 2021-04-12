@@ -11,6 +11,9 @@ library(tidyverse)
 library(gstat)
 library(sf)
 library(readr)
+library(spatstat)
+library(maptools)
+library(dplyr)
 ```
 
 
@@ -19,6 +22,7 @@ library(readr)
 collisionsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Motor%20Vehicle%20Collisions%20with%20KSI%20Data%20True.csv?token=AS22SR2ZGZO34O7CM56XBFTANDP44"
 zonesfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Stationary%20Sign%20locations/Stationary%20Sign%20Locations%20True%20-%20Stationary%20Sign%20locations.csv?token=AS22SR3YXJ3MMPTFKRTZFIDANDQKW"
 schoolsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/point-school-locations-wgs84/School%20Locations%20True%20-%20School%20locations-all%20types%20data.csv?token=AS22SR3J4NEF54PS3OOARYTANDQOY"
+
 
 Motor_Vehicle_Collisions_with_KSI_Data_True<-read_csv(url(collisionsfile))
 Stationary_Sign_Locations_True<-read_csv(url(zonesfile))
@@ -89,34 +93,7 @@ overview.map <- leaflet() %>% addTiles() %>%
 overview.map
 ```
 
-```{r}
-summary(Collisions.sf)
-```
-# trying to do quadrat analaysis, but i need to create a window first
-
-```{r}
-library(spatstat)
-library(maptools)
-```
-```{r}
-library(geog4ga3)
-```
-
-```{r}
-data("Toronto")
-```
-
-```{r}
-st_crs(Toronto)
-```
-
-```{r}
-Toronto.owin <- as.owin(as(Toronto, "Spatial")) # Requires `maptools` package
-```
-
-```{r}
-collisions.ppp <- as.ppp(st_coordinates(Collisions.sf), W = Toronto.owin)
-```
+#QUADRAT ANALYSIS
 
 ```{r}
 summary(collisions.ppp)
@@ -140,36 +117,95 @@ plot(q_test)
 ```
 
 ```{r}
-collisions.ppp <- as.ppp(Collisions.sf, W = Toronto.owin)
+#Conversion of WGS84 lat and lng points to corresponding UTM15N eastings and northings
+CollisionsXY <- Collisions %>%
+  select(lng, lat)
+
+CollisionsXY$lat <- as.numeric(CollisionsXY$lat)
+CollisionsXY$lng <- as.numeric(CollisionsXY$lng)
+
+coordinates(CollisionsXY) <- c("lng", "lat")
+proj4string(CollisionsXY) <- CRS("+proj=longlat +datum=WGS84")
+Collisions.trfm <- spTransform(CollisionsXY, CRS("+proj=utm +zone=15 ellps=WGS84"))
+CollisionsPCS <- as(Collisions.trfm, "SpatialPoints")
+
+#USE FOR QUADRAT
+CollisionsPCS.sf <- st_as_sf(CollisionsPCS)
+#######################################################################################
+
+SchoolsXY <- Schools %>%
+  select(lng, lat)
+
+SchoolsXY$lat <- as.numeric(SchoolsXY$lat)
+SchoolsXY$lng <- as.numeric(SchoolsXY$lng)
+
+coordinates(SchoolsXY) <- c("lng", "lat")
+proj4string(SchoolsXY) <- CRS("+proj=longlat +datum=WGS84")
+Schools.trfm <- spTransform(SchoolsXY, CRS("+proj=utm +zone=15 ellps=WGS84"))
+Schools.trfm
+SchoolsPCS <- as(Schools.trfm, "SpatialPoints")
+
+#USE FOR QUADRAT
+SchoolsPCS.sf <- st_as_sf(SchoolsPCS)
+#######################################################################################
+
+School_ZonesXY <- School_Zones %>%
+  select(lng, lat)
+
+School_ZonesXY$lat <- as.numeric(School_ZonesXY$lat)
+School_ZonesXY$lng <- as.numeric(School_ZonesXY$lng)
+
+coordinates(School_ZonesXY) <- c("lng", "lat")
+proj4string(School_ZonesXY) <- CRS("+proj=longlat +datum=WGS84")
+School_Zones.trfm <- spTransform(School_ZonesXY, CRS("+proj=utm +zone=15 ellps=WGS84"))
+School_Zones.trfm
+School_ZonesPCS <- as(School_Zones.trfm, "SpatialPoints")
+
+#USE FOR QUADRAT
+School_ZonesPCS.sf <- st_as_sf(School_ZonesPCS)
+#######################################################################################
 ```
 
 ```{r}
+#read shapefile
 toronto_boundary <- st_read(
   "data/toronto-boundary-wgs84/citygcs_regional_mun_wgs84.shp")
+
+#convert polygon to group of lines
+toronto.lines = st_cast(toronto_boundary,"LINESTRING")
+
+#convert lines to points
+toronto_points <- st_cast(toronto.lines, to = "POINT")
+
+toronto_points <- as.data.frame(toronto_points)
+#AT THIS POINT I EXTRACTED toronto_points AS A CSV AND SEPARATED THE LNG AND LAT IN SHEETS (Toronto_Points)
+
+#converting points from WGS84 to UTM15N
+coordinates(Toronto_Points) <- c("LNG", "LAT")
+proj4string(Toronto_Points) <- CRS("+proj=longlat +datum=WGS84")
+Toronto_Points.trfm <- spTransform(Toronto_Points, CRS("+proj=utm +zone=15 ellps=WGS84"))
+Toronto_Points <- as(Toronto_Points.trfm, "SpatialPoints")
 ```
 
 ```{r}
-class(toronto_boundary)
+Toronto_Points.df <- as.data.frame(Toronto_Points)
+
+#convert Toronto boundary points to polygon 
+poly <- Polygon(Toronto_Points.df)
+poly2 <- Polygons(list(poly),1)
+Toronto_Poly <- SpatialPolygons(list(poly2))
+plot(Toronto_Poly)
+
+#convert polygon to simple feature and assign as window
+Toronto_Poly <- st_as_sf(Toronto_Poly)
+Toronto.owin <- as.owin(as(Toronto_Poly, "Spatial"))
+
+collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
+plot(collisions.ppp)
+
 ```
 
 
-```{r}
-boundary_one <- st_union(toronto_boundary)
-plot(boundary_one)
-```
-
-```{r}
-boundary_flat <- st_transform(boundary_one, crs = 4326)
-plot(boundary_flat)
-```
-
-```{r}
-boundary_w <- as.owin(as_Spatial(boundary_flat))
-```
-
-```{r}
-collisions.ppp <- as.ppp(Collisions.sf, W = boundary_w)
-```
 
 
 
