@@ -4,7 +4,7 @@
 rm(list = ls())
 ```
 
-```{r}
+```{r, warning=FALSE}
 library(sp)
 library(leaflet)
 library(tidyverse)
@@ -117,7 +117,7 @@ plot(q_test)
 ```
 
 ```{r}
-#Conversion of WGS84 lat and lng points to corresponding UTM15N eastings and northings
+#Conversion of WGS84 lat and lng points to corresponding UTM17N eastings and northings
 CollisionsXY <- Collisions %>%
   select(lng, lat)
 
@@ -126,7 +126,7 @@ CollisionsXY$lng <- as.numeric(CollisionsXY$lng)
 
 coordinates(CollisionsXY) <- c("lng", "lat")
 proj4string(CollisionsXY) <- CRS("+proj=longlat +datum=WGS84")
-Collisions.trfm <- spTransform(CollisionsXY, CRS("+proj=utm +zone=15 ellps=WGS84"))
+Collisions.trfm <- spTransform(CollisionsXY, CRS("+proj=utm +zone=17 ellps=WGS84"))
 CollisionsPCS <- as(Collisions.trfm, "SpatialPoints")
 
 #USE FOR QUADRAT
@@ -141,7 +141,7 @@ SchoolsXY$lng <- as.numeric(SchoolsXY$lng)
 
 coordinates(SchoolsXY) <- c("lng", "lat")
 proj4string(SchoolsXY) <- CRS("+proj=longlat +datum=WGS84")
-Schools.trfm <- spTransform(SchoolsXY, CRS("+proj=utm +zone=15 ellps=WGS84"))
+Schools.trfm <- spTransform(SchoolsXY, CRS("+proj=utm +zone=17 ellps=WGS84"))
 Schools.trfm
 SchoolsPCS <- as(Schools.trfm, "SpatialPoints")
 
@@ -157,7 +157,7 @@ School_ZonesXY$lng <- as.numeric(School_ZonesXY$lng)
 
 coordinates(School_ZonesXY) <- c("lng", "lat")
 proj4string(School_ZonesXY) <- CRS("+proj=longlat +datum=WGS84")
-School_Zones.trfm <- spTransform(School_ZonesXY, CRS("+proj=utm +zone=15 ellps=WGS84"))
+School_Zones.trfm <- spTransform(School_ZonesXY, CRS("+proj=utm +zone=17 ellps=WGS84"))
 School_Zones.trfm
 School_ZonesPCS <- as(School_Zones.trfm, "SpatialPoints")
 
@@ -179,11 +179,13 @@ toronto_points <- st_cast(toronto.lines, to = "POINT")
 
 toronto_points <- as.data.frame(toronto_points)
 #AT THIS POINT I EXTRACTED toronto_points AS A CSV AND SEPARATED THE LNG AND LAT IN SHEETS (Toronto_Points)
-
-#converting points from WGS84 to UTM15N
-coordinates(Toronto_Points) <- c("LNG", "LAT")
+```
+```{r}
+#there's an error here. I cut the code block here since the previous part worked.
+#converting points from WGS84 to UTM17N
+coordinates(toronto_points) <- c("lng", "lat")
 proj4string(Toronto_Points) <- CRS("+proj=longlat +datum=WGS84")
-Toronto_Points.trfm <- spTransform(Toronto_Points, CRS("+proj=utm +zone=15 ellps=WGS84"))
+Toronto_Points.trfm <- spTransform(Toronto_Points, CRS("+proj=utm +zone=17 ellps=WGS84"))
 Toronto_Points <- as(Toronto_Points.trfm, "SpatialPoints")
 ```
 
