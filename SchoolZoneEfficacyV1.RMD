@@ -4,6 +4,7 @@ rm(list = ls())
 ```
 
 ```{r, warning=FALSE}
+library(leaflet.extras)
 library(sp)
 library(leaflet)
 library(tidyverse)
@@ -96,6 +97,19 @@ overview.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Schools.sf, icon = schoolIcon)
 
 overview.map
+
+collisions.map <- leaflet() %>% addTiles() %>%
+  addMarkers(data = Collisions.sf, icon = collisionsIcon)
+collisions.map
+summary(collisions.map)
+
+m2 <- leaflet(data = Collisions) %>% 
+  setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
+  addTiles()
+Collisions$lng <- as.numeric(Collisions$lng)
+Collisions$lat <- as.numeric(Collisions$lat)
+m2 %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
+             blur = 40, max = 1, radius = 18)
 ```
 
 #QUADRAT ANALYSIS
