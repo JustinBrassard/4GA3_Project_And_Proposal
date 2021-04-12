@@ -203,7 +203,7 @@ toronto_points <- as.data.frame(toronto_points)
 ```{r}
 #there's an error here. I cut the code block here since the previous part worked.
 #converting points from WGS84 to UTM17N
-coordinates(toronto_points) <- c("lng", "lat")
+coordinates(Toronto_Points) <- c("LNG", "LAT")
 proj4string(Toronto_Points) <- CRS("+proj=longlat +datum=WGS84")
 Toronto_Points.trfm <- spTransform(Toronto_Points, CRS("+proj=utm +zone=17 ellps=WGS84"))
 Toronto_Points <- as(Toronto_Points.trfm, "SpatialPoints")
