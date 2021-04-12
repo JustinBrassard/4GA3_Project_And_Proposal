@@ -101,27 +101,6 @@ overview.map
 #QUADRAT ANALYSIS
 
 ```{r}
-summary(collisions.ppp)
-```
-```{r}
-q_count <- quadratcount(collisions.ppp, nx = 3, ny = 3)
-table(q_count)
-```
-
-```{r}
-plot(q_count)
-```
-
-```{r}
-q_test <- quadrat.test(collisions.ppp, nx = 3, ny = 3)
-q_test
-```
-
-```{r}
-plot(q_test)
-```
-
-```{r}
 #Conversion of WGS84 lat and lng points to corresponding UTM17N eastings and northings
 CollisionsXY <- Collisions %>%
   select(lng, lat)
@@ -221,40 +200,31 @@ plot(Toronto_Poly)
 #convert polygon to simple feature and assign as window
 Toronto_Poly <- st_as_sf(Toronto_Poly)
 Toronto.owin <- as.owin(as(Toronto_Poly, "Spatial"))
-
-collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
-plot(collisions.ppp)
-
 ```
 
+```{r}
+collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
+summary(collisions.ppp)
+plot(collisions.ppp)
+```
 
+```{r}
+q_count <- quadratcount(collisions.ppp, nx = 3, ny = 3)
+table(q_count)
+```
 
+```{r}
+plot(q_count)
+```
 
+```{r}
+q_test <- quadrat.test(collisions.ppp, nx = 3, ny = 3)
+q_test
+```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```{r}
+plot(q_test)
+```
 
 
 
