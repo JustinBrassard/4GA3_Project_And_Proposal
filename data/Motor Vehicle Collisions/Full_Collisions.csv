@@ -11426,4 +11426,3 @@ ACCNUM,YEAR,HOUR,ROAD_CLASS,District,WardNum,ACCLOC,TRAFFCTL,VISIBILITY,RDSFCOND
 9002320157,2019,20,Major Arterial,Scarborough,21,Non Intersection,No Control,Snow,Loose Snow,Non-Fatal Injury,Rear End,35 to 39,None,,,,,,"-79.292286, 43.745898"
 9002404959,2019,20,Major Arterial,North York,6,Intersection Related,Traffic Signal,Clear,Dry,Non-Fatal Injury,Pedestrian Collisions,65 to 69,None,,Failed to Yield Right of Way,Normal,,,"-79.486423, 43.744773"
 9002404959,2019,20,Major Arterial,North York,6,Intersection Related,Traffic Signal,Clear,Dry,Non-Fatal Injury,Pedestrian Collisions,50 to 54,Major,,,,,Normal,"-79.486423, 43.744773"
-,,,,,,,,,,,,,,,,,,,geometry
