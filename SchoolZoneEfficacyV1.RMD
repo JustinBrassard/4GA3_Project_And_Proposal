@@ -22,6 +22,8 @@ library(dplyr)
 
 collisionsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Motor%20Vehicle%20Collisions%20with%20KSI%20Data%20True.csv?token=AS22SR2ZGZO34O7CM56XBFTANDP44"
 
+fullcollisionsfile = "https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Full_Collisions.csv"
+
 zonesfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Stationary%20Sign%20locations/Stationary%20Sign%20Locations%20True%20-%20Stationary%20Sign%20locations.csv?token=AS22SR3YXJ3MMPTFKRTZFIDANDQKW"
 
 schoolsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/point-school-locations-wgs84/School%20Locations%20True%20-%20School%20locations-all%20types%20data.csv?token=AS22SR3J4NEF54PS3OOARYTANDQOY"
@@ -30,6 +32,7 @@ boundsfile <- "https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And
 
 
 Motor_Vehicle_Collisions_with_KSI_Data_True<-read_csv(url(collisionsfile))
+Full_Collisions<-read_csv(url(fullcollisionsfile))
 Stationary_Sign_Locations_True<-read_csv(url(zonesfile))
 School_Locations_True<-read_csv(url(schoolsfile))
 Toronto_Points<-read_csv(url(boundsfile))
@@ -42,6 +45,8 @@ School_Zones <- Stationary_Sign_Locations_True %>%
 Collisions <- Motor_Vehicle_Collisions_with_KSI_Data_True %>%
   separate(geometry, into = c('lng', 'lat'), sep = ', ')
 Schools <- School_Locations_True %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
+Full_Collisions <- Full_Collisions %>%
   separate(geometry, into = c('lng', 'lat'), sep = ', ')
 ```
 
@@ -112,6 +117,8 @@ collisions.hmap <- leaflet(data = Collisions) %>%
 
 Collisions$lng <- as.numeric(Collisions$lng)
 Collisions$lat <- as.numeric(Collisions$lat)
+Full_Collisions$lng <- as.numeric(Full_Collisions$lng)
+Full_Collisions$lat <- as.numeric(Full_Collisions$lat)
 
 collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 17)
@@ -120,6 +127,13 @@ collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 17) %>%
               addMarkers(data = School_Zones.sf, icon = zonesIcon)
 
+fullcollisions.hmap <- leaflet(data = Full_Collisions) %>% 
+  setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
+  addTiles()
+
+fullcollisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
+             blur = 40, max = 1, radius = 15) %>%
+              addMarkers(data = School_Zones.sf, icon = zonesIcon)
 
 ```
 
