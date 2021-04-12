@@ -81,7 +81,7 @@ schoolIcon <- makeIcon(
 )
 zonesIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/school-icon-png-40.png",
-  iconWidth = 30, iconHeight = 30
+  iconWidth = 10, iconHeight = 10
 )
 collisionsIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/-alert-attention-danger-exclamation-safety-warning-icon--icon--33.png",
@@ -97,19 +97,30 @@ overview.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Schools.sf, icon = schoolIcon)
 
 overview.map
-
+```
+#HEATMAP ANALYSIS
+```{r}
 collisions.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon)
-collisions.map
-summary(collisions.map)
 
-m2 <- leaflet(data = Collisions) %>% 
+collisions.map
+
+
+collisions.hmap <- leaflet(data = Collisions) %>% 
   setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
   addTiles()
+
 Collisions$lng <- as.numeric(Collisions$lng)
 Collisions$lat <- as.numeric(Collisions$lat)
-m2 %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
-             blur = 40, max = 1, radius = 18)
+
+collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
+             blur = 40, max = 1, radius = 17)
+
+collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
+             blur = 40, max = 1, radius = 17) %>%
+              addMarkers(data = School_Zones.sf, icon = zonesIcon)
+
+
 ```
 
 #QUADRAT ANALYSIS
