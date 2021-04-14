@@ -143,6 +143,7 @@ fullcollisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
 
 ```
 
+
 #QUADRAT ANALYSIS
 
 ```{r}
@@ -333,9 +334,11 @@ plot(q_test_School)
 #prequisites: load sf and sp libraries (done)
 #convert data frame and/or sp to sf using st_as_sf (done)
 #plot to make sure nothing has gone wrong using 'target_km = st_transform(target, "+proj=utm +zone=17N +datum=WGS84 +units=km")'
-SZ_km = st_transform(School_Zones.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
+SZ_km = st_transform(School_ZonesPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
+SZ_km
 
-Coll_km = st_transform(Collision.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
+Coll_km = st_transform(CollisionsPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
+Coll_km
 
 #error: cannot transform sfc object with missing crs
 #help with error: https://r-spatial.github.io/sf/reference/st_crs.html
