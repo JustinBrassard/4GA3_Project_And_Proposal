@@ -61,10 +61,11 @@ To cite references in your bibliography.bib file, use [@item] if you want it to 
 <!--Use "#" for section headers-->
 # Introduction
 
-<!-- Opioid use has increased over the years, particularly with the introduction of the drugs by the pharmaceutical industry as painkiller prescriptions [@dennis2015opioid]. In the United States alone, opioid prescriptions are responsible for tens of thousands of opioid-related drug deaths [@nida2020opioid]. There have been many attempts to solve this growing issue, however, without properly addressing the problem, it cannot be resolved. For instance, one barrier in the way of addressing opioid use in the United States is the state of Kentucky which has the highest opioid use in the country. To understand why, this paper will analyze the spatial statistics of opioid use in Kentucky. The purpose of this study is to address the following research question: Is there any causal relationship between education and income and opioid usage across counties in the state of Kentucky in the United States? To answer this, the opioid use data for Kentucky will go through a series of area data processes in relation to socioeconomic factors, education and income. An analysis of the processes will be done to determine the effect of these factors on opioid use in Kentucky. The trends from this will define opioid use in Kentucky and further discussion on the topic. -->
+<!-- Write the intro here -->
 
 # Background
 
+<!-- Include some background for our project -->
 
 # Predictions
 
@@ -74,19 +75,9 @@ The research question asks if there is a direct relationship between collisions 
 
 Several factors may affect the reliability and accuracy of the data analysis conducted. If a safety zone was recently established in an area, it is possible that a significant number of collisions occurred there to necessitate its creation, skewing the number of events in this zone. This is solved by comparing the zone implementation date to the collision event date, both of which are fields present in the collisions shapefile. As well, areas with a higher population density and greater traffic flow are more likely to have collisions. The active hours of a safety zone are also of relevance. Some safety signs are turned off after school hours, raising the speed limit to facilitate greater traffic flow. If collisions occurred at this time, this would give the appearance of greater collisions in a safety zone, when in fact the zone was not active. Fortunately, collision time and zone active hours are recorded in the collision and safety zone shapefiles, respectively, solving this issue. Finally, other roadway conditions play a role in collision frequency, such as lighting, road state (icy, dry, etc.), and visibility. If little correlation is found between safety zones and collisions, perhaps one of these fields will prove more significant.
 
-<!-- Drug overdose is one of the leading causes of accidental death; causing 65,000 deaths in the United States in 2016 [@jones2018opioid]. The United States is currently experiencing a lethal health crisis of drug use, specifically, opioid overdose and opioid use disorder/misuse [@national2017pain]. The use of opioids causes feelings of euphoria and is most widely used for pain relief. Using opioids (including prescription use) can increase tolerance to the drug effect, as well as physical dependency such as withdrawal symptoms [@van1999opioids]. According to the WHO (2018), opioids can cause substance reliance that is described by a powerful urge to take opioids, and steady opioid use despite destructive consequences, respiratory depression, and behaviours. Opioids are separated into prescription pain relievers such as oxycodone and hydrocodone, and illicit substances including heroin. According to @jones2018opioid, Americans are responsible for 80 percent of the world’s oxycodone and 90 percent of the world’s hydrocodone consumption. On average, 90 Americans die each day prematurely from an overdose that involves an opioid [@national2017pain]. The biggest increase in drug overdose deaths occurred between 2015 and 2016, involving synthetic opioids, and most significantly, fentanyl [@scholl2019drug]. From 2018 to 2019, The Washington Post (2020) reported on fentanyl, which killed more than 30,000 people that year. If current trends continue, the yearly death toll from fentanyl will converge to the yearly toll from traffic and gun accidents (The Washington Post, 2020). -->
-
-<!-- In 2011, Kentucky was flooded with 371 million doses of opioid painkillers forcing state officials to crack down on pain clinics, suing pharmaceutical companies and limiting the number of pills doctors are able to prescribe [@beam2018kentucky]. Such measures lead to almost 100 million fewer opioid prescriptions in 2017, however, to an 11.5 percent increase in drug overdose deaths [@beam2018kentucky]. According to the Kentucky Injury Prevention and Research Center (2012), deaths from drug-overdose in Kentucky increased 282 percent between 2000 and 2010, from a rate of six overdose deaths per 100,000 residents to 22.9 deaths per 100,000 residents. -->
-
-<!-- In 2006, Kentucky had the third-highest rate of prescription opioids in the US, but over the course of the decade, those numbers have dropped [@kennedy2020cdc]. Kentucky, however, is still one of the top ten states with the highest prescription rates [@nida2019kentucky].  -->
-
-<!-- Many recent studies have been researching the socioeconomic factors contributing to the rates of opioid use worldwide. For instance, disability, pension, unemployment, divorce, low income and low education are associated with persistent opioid use, based on a Norwegian study from 2005 [@svendsen2014persistent]. -->
-
-<!-- According to @altekruse2020socioeconomic, people whose highest level of education was a High School Diploma or GED accounted to 35.4 percent of deaths related to opioid overdose, while 23.7 percent of opioid overdose deaths were of people who did not complete high school. Over the years the number of deaths due to opioid overdose had increased for people with less than a four-year college degree in comparison to those with graduate degrees (Altekruse et al., 2020). Such an increase in the risk of opioid misuse among people with lower education may partially reflect downstream consequences such as less access to stable employment opportunities [@altekruse2020socioeconomic]. In another study, @irp2018opioid suggests that less-educated individuals may have greater risk factors and fewer disincentives for engaging in drug use as opposed to more educated individuals. This implies that less-educated individuals face poor job prospects, declining or flat earnings, and greater risk of workplace injuries, chronic health conditions and disability, which in a lot of cases lead to opioid prescriptions  [@irp2018opioid]. According to @smolina2016determinants, the rapid increase in opioid consumption (by 31 percent) in British Columbia was found to be the greatest among lower-income individuals compared to higher-income individuals, from 2005 to 2013. -->
-
 # Study area
 
-<!-- Opioid use was studied at the county level in the state of Kentucky (see Figure \ref{fig:counties-ky}). There are 120 counties in the state of Kentucky, and 119 of these had opioid data available for analysis. Kentucky was chosen as it is one of the states with the highest reported opioid usage and opioid-involved overdose deaths. In 2017, the United States national average of opioid-related deaths was a rate of 14.6 deaths per 100,000 people, and Kentucky had a rate of 27.9 deaths per 100,000 people (National Institute on Drug Abuse, 2019). The state also had a high amount of variation between counties and the number of pills per person as reported by the Washington Post - ranging between around 20 to 185 pills per person per year. The study was done to analyze if there are any spatial patterns shown by these variations and to uncover possible reasons behind these spatial patterns.  -->
+<!-- Talk about the study area. I suppose we're just looking at Toronto.  -->
 
 ```{r retrieve-arcos-data, include=FALSE}
 # Using the `arcos` package we can view summarized annual data from the Washington Post, as well as the population of each county. 
@@ -146,15 +137,15 @@ ggplot() +
 
 # Data
 
-<!-- The data used for this study ranges over a nine-year period between 2006 to 2014. It includes opioid use data from this period of time. This data was retrieved from The Washington Post using the `arcos` package in RStudio [@rich2019how]). The variables of this study are retrieved from the 2010 and 2014 census data for Kentucky from the United States Census Bureau. The data used from the 2010 census included the mean yearly household income (United States Census Bureau, n.d.-a). The 2014 census was used to retrieve the level of education (high school degree and above) (United States Census Bureau, n.d.-b). -->
+<!-- We could probably mostly copy/paste our Data section from the project proposal and tweek the stuff we changed/added. It doesn't need to be very long IMO -->
 
 # Methods
 
-<!-- This study uses RStudio to conduct a series of data processes to visualize and find relationships between pre-selected variables for Kentucky, USA. The independent variable used in this study is the opioid use data for Kentucky based on pills per person, per county. The different variables used are the income and education levels per county in Kentucky. This study conducts area data processes including choropleth maps to emphasize important trends and patterns in the data, scatterplots, and regression analyses to determine relationships between opioid use data and the variables. -->
+<!-- We can just talk about the tools we're using (q.test, leaflet, heatmaps, etc.) and include a brief reasoning behind each tool (one sentence maximum?) -->
 
 # Results
 
-<!-- To begin this research study, data was collected in order to create a general understanding of the trends. This includes the history of opioid use in Kentucky. Figure \ref{fig:annual-dosage} shows the general pattern of opioid use across counties in Kentucky, depicting pills per person, from 2006 to 2014.  -->
+<!-- This part can be short but we probably can't really write much until we're done all of our analysis  -->
 
 ```{r plot-annual-dosage, echo=FALSE, fig.cap={"\\label{fig:annual-dosage}Annual opioid pills per person by county in Kentucky, USA (2006-2014)"}}
 # ggplot() +
