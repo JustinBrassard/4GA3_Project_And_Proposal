@@ -82,15 +82,19 @@ ggplot() +
 #icon creation for main leaflet (TEST)
 schoolIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/school-house-icon-16.png",
-  iconWidth = 30, iconHeight = 30
+  iconWidth = 20, iconHeight = 20
 )
 zonesIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/school-icon-png-40.png",
-  iconWidth = 10, iconHeight = 10
+  iconWidth = 20, iconHeight = 20
 )
 collisionsIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/-alert-attention-danger-exclamation-safety-warning-icon--icon--33.png",
-  iconWidth = 30, iconHeight = 30
+  iconWidth = 20, iconHeight = 20
+)
+smallzonesIcon <- makeIcon(
+  iconUrl = "https://www.freeiconspng.com/uploads/school-icon-png-40.png",
+  iconWidth = 10, iconHeight = 10
 )
 ```
 
@@ -126,12 +130,18 @@ collisions.hmap <- leaflet(data = Collisions) %>%
 #2019 collisions heatmap (will add necessary map elements like a title soon)
 collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 17)
+```
 
+
+```{r}
 #2019 collisions heatmap with school zone markers (will add necessary map elements like a title soon)
 collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 16) %>%
-              addMarkers(data = School_Zones.sf, icon = zonesIcon)
+              addMarkers(data = School_Zones.sf, icon = smallzonesIcon)
+```
 
+
+```{r}
 #2006 – 2019 collisions heatmap with school zone markers (will add necessary map elements like a title soon)
 fullcollisions.hmap <- leaflet(data = Full_Collisions) %>% 
   setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
@@ -139,7 +149,7 @@ fullcollisions.hmap <- leaflet(data = Full_Collisions) %>%
 
 fullcollisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 16) %>%
-              addMarkers(data = School_Zones.sf, icon = zonesIcon)
+              addMarkers(data = School_Zones.sf, icon = smallzonesIcon)
 
 ```
 
