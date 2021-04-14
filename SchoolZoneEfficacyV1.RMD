@@ -269,6 +269,63 @@ q_test_coll
 plot(q_test_coll)
 ```
 
+#Quadrat Test for Speed Signs
+
+```{r}
+speedsigns.ppp <- as.ppp(st_coordinates(School_ZonesPCS.sf), W = Toronto.owin)
+summary(speedsigns.ppp)
+plot(speedsigns.ppp)
+```
+
+```{r}
+q_count_sss <- quadratcount(speedsigns.ppp, nx = 3, ny = 3)
+table(q_count_sss)
+```
+
+```{r}
+plot(q_count_sss)
+plot(q_count_coll)
+```
+
+```{r}
+q_test_sss <- quadrat.test(speedsigns.ppp, nx = 3, ny = 3)
+q_test_sss
+```
+
+```{r}
+plot(q_test_sss)
+```
+
+#Quadrat Test for Schools
+
+```{r}
+Schools.ppp <- as.ppp(st_coordinates(SchoolsPCS.sf), W = Toronto.owin)
+summary(Schools.ppp)
+plot(Schools.ppp)
+```
+
+```{r}
+q_count_School <- quadratcount(Schools.ppp, nx = 5, ny = 6)
+q_count_coll <- quadratcount(collisions.ppp, nx = 5, ny = 6)
+q_count_sss <- quadratcount(speedsigns.ppp, nx = 5, ny = 6)
+table(q_count_School)
+```
+
+```{r}
+plot(q_count_School)
+plot(q_count_sss)
+plot(q_count_coll)
+```
+
+```{r}
+q_test_School <- quadrat.test(Schools.ppp, nx = 3, ny = 3)
+q_test_School
+```
+
+```{r}
+plot(q_test_School)
+```
+
 # Buffers
 
 ```{r}
@@ -281,6 +338,7 @@ SZ_km = st_transform(School_Zones.sf, "+proj=utm +zone=17N +datum=WGS84 +units=k
 Coll_km = st_transform(Collision.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
 
 #error: cannot transform sfc object with missing crs
+#help with error: https://r-spatial.github.io/sf/reference/st_crs.html
 ```
 
 
