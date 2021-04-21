@@ -84,6 +84,10 @@ schoolIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/school-house-icon-16.png",
   iconWidth = 20, iconHeight = 20
 )
+smallschoolIcon <- makeIcon(
+  iconUrl = "https://www.freeiconspng.com/uploads/school-house-icon-16.png",
+  iconWidth = 10, iconHeight = 10
+)
 zonesIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/school-icon-png-40.png",
   iconWidth = 20, iconHeight = 20
@@ -127,22 +131,27 @@ collisions.hmap <- leaflet(data = Collisions) %>%
   addTiles()
 
 
-#2019 collisions heatmap (will add necessary map elements like a title soon)
+#2019 collisions heatmap 
 collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 17)
 ```
 
 
 ```{r}
-#2019 collisions heatmap with school zone markers (will add necessary map elements like a title soon)
+#2019 collisions heatmap with school zone markers 
 collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 16) %>%
               addMarkers(data = School_Zones.sf, icon = smallzonesIcon)
+
+#2019 collisions heatmap with school locations 
+collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
+             blur = 40, max = 1, radius = 16) %>%
+              addMarkers(data = Schools.sf, icon = smallschoolIcon)
 ```
 
 
 ```{r}
-#2006 – 2019 collisions heatmap with school zone markers (will add necessary map elements like a title soon)
+#2006 – 2019 collisions heatmap with school zone markers 
 fullcollisions.hmap <- leaflet(data = Full_Collisions) %>% 
   setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
   addTiles()
@@ -151,8 +160,12 @@ fullcollisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 16) %>%
               addMarkers(data = School_Zones.sf, icon = smallzonesIcon)
 
-```
+#2006 – 2019 collisions heatmap with school location markers
+fullcollisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
+             blur = 40, max = 1, radius = 16) %>%
+              addMarkers(data = Schools.sf, icon = smallschoolIcon)
 
+```
 
 #QUADRAT ANALYSIS
 
