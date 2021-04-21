@@ -30,14 +30,17 @@ always_allow_html: yes
 ---
 
 <!--Chunks of code can have names; the chunk option "include" controls whether the chunk and its output are printed in the final document-->
-```{r load-packages, include=FALSE}
-# install.packages("arcos") # Install if needed, but this needs to be done only once
+```{r, warning=FALSE}
+library(leaflet.extras)
 library(sp)
 library(leaflet)
 library(tidyverse)
 library(gstat)
 library(sf)
 library(readr)
+library(spatstat)
+library(maptools)
+library(dplyr)
 ```
 
 ```{r write-package-bib, include=FALSE}
@@ -45,9 +48,53 @@ library(readr)
 knitr::write_bib(file = 'packages.bib')
 ```
 
-```{r read-census-data, include=FALSE}
-# income_fip <- read_excel("data/income.fip.xlsx")
-# education_ky <- read_excel("data/education_ky.xlsx")
+```{r}
+#importing necessary files from GitHub
+
+collisionsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Motor%20Vehicle%20Collisions%20with%20KSI%20Data%20True.csv?token=AS22SR2ZGZO34O7CM56XBFTANDP44"
+
+fullcollisionsfile = "https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Full_Collisions.csv"
+
+kidcollisionsfile = "https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Kids%20Full%20Collisions%20-%20Motor%20Vehicle%20Collisions%20with%20KSI%20Data.csv"
+
+zonesfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Stationary%20Sign%20locations/Stationary%20Sign%20Locations%20True%20-%20Stationary%20Sign%20locations.csv?token=AS22SR3YXJ3MMPTFKRTZFIDANDQKW"
+
+schoolsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/point-school-locations-wgs84/School%20Locations%20True%20-%20School%20locations-all%20types%20data.csv?token=AS22SR3J4NEF54PS3OOARYTANDQOY"
+
+boundsfile <- "https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Toronto%20Boundary%20Points%20UTM15N/Toronto_Points.csv"
+
+
+Motor_Vehicle_Collisions_with_KSI_Data_True<-read_csv(url(collisionsfile))
+Full_Collisions<-read_csv(url(fullcollisionsfile))
+Kid_Collisions<-read_csv(url(kidcollisionsfile))
+
+Stationary_Sign_Locations_True<-read_csv(url(zonesfile))
+School_Locations_True<-read_csv(url(schoolsfile))
+
+Toronto_Points<-read_csv(url(boundsfile))
+```
+
+```{r}
+#separation of 'geometry' column into two lng & lat columns for main data sets
+School_Zones <- Stationary_Sign_Locations_True %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
+Schools <- School_Locations_True %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
+
+Collisions <- Motor_Vehicle_Collisions_with_KSI_Data_True %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
+Full_Collisions <- Full_Collisions %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
+Kid_Collisions <- Kid_Collisions %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
+```
+
+```{r}
+#df to sf conversion of main data sets
+School_Zones.sf <- st_as_sf(School_Zones, coords = c("lng", "lat"))
+Schools.sf <- st_as_sf(Schools, coords = c("lng", "lat"))
+
+Collisions.sf <- st_as_sf(Collisions, coords = c("lng", "lat"))
 ```
 
 <!--This format should be used to comment out sections of code/text. Or just use [Shift + Ctrl + C] - MG-->
@@ -61,15 +108,20 @@ To cite references in your bibliography.bib file, use [@item] if you want it to 
 <!--Use "#" for section headers-->
 # Introduction
 
-<!-- Write the intro here -->
+The goal of this project is to explore the relationships between motor vehicle collisions (strictly involving pedestrians), and school safety zones within Toronto. To draw conclusions, data from various sources have been acquired in order to establish trends from previous years. General trends on this relationship were determined before the data were further analyzed. Having an opportunity to examine these data allowed for some rough predictions to be made in terms of the reasons for these incidents occurring more and less frequently within specific areas of Toronto. For instance, the number of collisions in school safety zones should drop where the speed limit is lower. Further analysis is required to determine if this is the case.
+
+This is intended to find ways to reduce these incidents as injury and fatality rates are higher in some areas. If fines can be increased in these areas, along with adding additional traffic enforcement, these incidents may be prevented from occurring in the future. There are likely more conclusions and solutions that will be determined as the data is further analyzed as various other factors will be examined, supplementing this general outlook. Overall, having a better insight on this issue can help generate ideas on how to reduce motor collision incidents within school zones in the City of Toronto.
 
 # Background
 
-<!-- Include some background for our project -->
+Canada has shown an improvement in road and transport safety over the years as collision fatalities and injuries have exhibited a declining trend. Nevertheless, vehicular collisions remain a prominent threat to the lives, bodies, bank accounts, and general well-being of Canadians. In 2018, collisions resulted in 1500 fatalities and 152,847 injuries (Transport Canada, 2020).  “On-road” collisions have been a majority source of child fatalities for many years in Canada, and despite the lowering rate, these collisions comprise  49% of fatalities affecting children aged 0-14 with only 13% of them occurring when the child is a passenger (Parachute, 2016). This outlines that child pedestrians are at risk of being fatally struck by vehicles. To counteract this, school zones are established to protect children in and around areas they frequently gather (i.e. schools). School zones are strips of road near schools or childcare areas, delineated by a lower maximum speed limit and an inability to pass in either lane. These zones have been shown to effectively reduce the number of fatal and injury inducing crashes by ~4% per a 1km/h decrease in speed limit (Sun et al., 2018, p. 1087).
+
+School zones seem to be effective in idealized scenarios but concerns exist due to unequal zone states in which municipalities and drivers are responsible for creating. Municipalities establish school zones and determine their features (location, length, speed limit, etc) and in the end, drivers must make the effort to consciously follow the rules and make safe choices when in a zone. This is not guaranteed: on average in Toronto 21% of drivers speed while in school zones with percentages climbing as high as 85% in specific zones, which road safety advocates blame partially on infrastructure that promotes fast driving (ex. straightaways and four-lane traffic) (Rocha & Pelley, 2020). Speeding alone is not the only threat to school zone safety; illegal parking and distracted driving have both been identified as some of the most common unsafe behaviours demonstrated by drivers in school zones (CAA polling, 2019). If these actions are as common as they are reported to be, then are school zones not uniformly deterring drivers from unsafe behaviours?
+
+In conclusion, school zones are effective, but are they effective unilaterally and are their features optimized for reducing the ever-present threat of collisions for younger generations? This study has value in that it provides a deeper understanding of the efficacy of school zones as it gives insight into the spatial distributions of crashes within them, potentially establishing zones with varying intensities, opposed to taking efficacy averages. Through this, hotspots and trends in school zone contained collisions can be developed, outlining regions that should be addressed.
+
 
 # Predictions
-
-<!-- I question how relevant this section is, since you rarely see it in academic literature, but we can always figure that out later - MG -->
 
 The research question asks if there is a direct relationship between collisions involving pedestrians and the presence of school safety zones. Due to the proven efficacy of safety zones, it is predicted that these areas will experience fewer collisions than areas without safety zones. Conversely, it is probable that areas that experience more collisions than others will be found to lack adequate safety features.
 
@@ -80,59 +132,7 @@ Several factors may affect the reliability and accuracy of the data analysis con
 <!-- Talk about the study area. I suppose we're just looking at Toronto.  -->
 
 ```{r retrieve-arcos-data, include=FALSE}
-# Using the `arcos` package we can view summarized annual data from the Washington Post, as well as the population of each county. 
-KY_sum <- arcos::summarized_county_annual(state = "KY", 
-                                          key = "WaPo")
-```
 
-```{r retrieve-population, include=FALSE}
-# We will use this data to map the opioid data for Kentucky.
-# First we will adjust for population. Selecting the columns important to us.
-population <- arcos::county_population(state = "KY", 
-                                       key = "WaPo") %>%
-  select(countyfips, 
-         year, 
-         population)
-```
-
-```{r retrieve-geography, include=FALSE}
-# Download the county geography for Kentucky as a simple features object
-options(tigris_class = "sf")
-KY_shape <- tigris::counties(state = "KY", 
-                             cb = T)
-```
-
-<!--Chunk option eval controls whether a chunk is evaluated when the document is executed; set to false to avoid running. It can still be manually run-->
-```{r check-sf, eval=FALSE, include=FALSE}
-#Check the simple features file:
-KY_shape
-# We see that the coordinates of this are in lon-lat.
-```
-
-```{r join-opioid-data-to-geography, include=FALSE}
-# Join the county dosage data with the county shapefile.
-KY <- KY_sum %>% 
-  left_join(KY_shape, 
-            by = c("countyfips" = "GEOID"))
-```
-
-```{r join-population-dosage-tables, include=FALSE}
-# Join the population and dosage tables, divide by population. This gives dosage per capita.
-KY <- KY %>%
-  left_join(population) %>%
-  mutate(per_person = DOSAGE_UNIT/population) %>%
-  st_as_sf()
-```
-
-<!--Chunk option echo controls whether the code is displayed in the output. The results of the chunk are displayed.
-Chunk option fig.cap is used to give the figure a caption; we can add a label that we can refer to in the text as \ref{fig:counties-ky}, and then the figures will be automatically numbered.-->
-```{r plot-dosage, echo=FALSE, fig.cap={"\\label{fig:counties-ky}Counties in Kentucky, USA"}}
-ggplot() +
-  geom_sf(data = KY_shape,
-          color = "white", 
-          fill = "gray") + 
-  theme_void()+
-  theme(panel.grid.major = element_line(colour = 'transparent'))
 ```
 
 # Data
