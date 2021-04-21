@@ -133,7 +133,7 @@ Toronto has adapted to be a very diverse city over the last 30 years with a mass
 
 Other cities such as New York, Chicago, Houston, and Los Angeles could have been used, although it was determined that the best choice would be Toronto as it is the area closest to McMaster, and the one that the majority of McMaster students are familiar with. To determine the relationship between collisions and safety zones, sources from the City of Toronto along with transportation trends within the area are examined. Using R-Studio, these data will be plotted on maps and further analyzed to find common trends between the different datasets to determine a conclusion.
 
-The area of Toronto that will be examined is shown below.
+The area of Toronto that will be examined is shown below in Figure \ref{fig:Toronto-Bound}
 
 ```{r Toronto-Bound, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE, fig.cap={"\\label{fig:Toronto-Bound}Boundaries of Toronto, Canada (2021)"}}
 #lines 270-300 from code rmd file
