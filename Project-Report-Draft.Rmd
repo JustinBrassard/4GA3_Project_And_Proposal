@@ -135,7 +135,7 @@ Other cities such as New York, Chicago, Houston, and Los Angeles could have been
 
 The area of Toronto that will be examined is shown below.
 
-```{r load-packages, include=FALSE}
+```{r Code-RMD-FILE, include=FALSE}
 #lines 270-300 from code rmd file
 #read shapefile
 toronto_boundary <- st_read(
@@ -177,7 +177,7 @@ It is extremely beneficial to choose an area of study that is significant to the
 
 # Results
 
-```{r load-packages, include=FALSE}
+```{r GGPLOT1, include=FALSE}
 ggplot() +
   geom_sf(data = Schools.sf, color = "grey") +
   geom_sf(data = School_Zones.sf, color = "yellow") +
