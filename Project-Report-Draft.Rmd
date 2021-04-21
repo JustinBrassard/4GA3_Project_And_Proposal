@@ -135,7 +135,7 @@ Other cities such as New York, Chicago, Houston, and Los Angeles could have been
 
 The area of Toronto that will be examined is shown below.
 
-```{r Toronto-Bound, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
+```{r Toronto-Bound, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE, fig.cap={"\\label{fig:Toronto-Bound}Boundaries of Toronto, Canada (2021)"}}
 #lines 270-300 from code rmd file
 #read shapefile
 toronto_boundary <- st_read(
