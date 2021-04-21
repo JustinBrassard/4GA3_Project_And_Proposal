@@ -167,7 +167,8 @@ fullcollisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
 
 ```
 
-#QUADRAT ANALYSIS
+
+QUADRAT ANALYSIS
 
 ```{r}
 #Conversion of WGS84 lat and lng points to corresponding UTM17N eastings and northings
