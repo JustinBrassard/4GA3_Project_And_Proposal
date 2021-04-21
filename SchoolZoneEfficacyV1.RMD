@@ -24,6 +24,8 @@ collisionsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_An
 
 fullcollisionsfile = "https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Full_Collisions.csv"
 
+kidcollisionsfile = "https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Kids%20Full%20Collisions%20-%20Motor%20Vehicle%20Collisions%20with%20KSI%20Data.csv"
+
 zonesfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Stationary%20Sign%20locations/Stationary%20Sign%20Locations%20True%20-%20Stationary%20Sign%20locations.csv?token=AS22SR3YXJ3MMPTFKRTZFIDANDQKW"
 
 schoolsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/point-school-locations-wgs84/School%20Locations%20True%20-%20School%20locations-all%20types%20data.csv?token=AS22SR3J4NEF54PS3OOARYTANDQOY"
@@ -33,8 +35,11 @@ boundsfile <- "https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And
 
 Motor_Vehicle_Collisions_with_KSI_Data_True<-read_csv(url(collisionsfile))
 Full_Collisions<-read_csv(url(fullcollisionsfile))
+Kid_Collisions<-read_csv(url(kidcollisionsfile))
+
 Stationary_Sign_Locations_True<-read_csv(url(zonesfile))
 School_Locations_True<-read_csv(url(schoolsfile))
+
 Toronto_Points<-read_csv(url(boundsfile))
 ```
 
@@ -42,19 +47,23 @@ Toronto_Points<-read_csv(url(boundsfile))
 #separation of 'geometry' column into two lng & lat columns for main data sets
 School_Zones <- Stationary_Sign_Locations_True %>%
   separate(geometry, into = c('lng', 'lat'), sep = ', ')
-Collisions <- Motor_Vehicle_Collisions_with_KSI_Data_True %>%
-  separate(geometry, into = c('lng', 'lat'), sep = ', ')
 Schools <- School_Locations_True %>%
   separate(geometry, into = c('lng', 'lat'), sep = ', ')
+
+Collisions <- Motor_Vehicle_Collisions_with_KSI_Data_True %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
 Full_Collisions <- Full_Collisions %>%
+  separate(geometry, into = c('lng', 'lat'), sep = ', ')
+Kid_Collisions <- Kid_Collisions %>%
   separate(geometry, into = c('lng', 'lat'), sep = ', ')
 ```
 
 ```{r}
 #df to sf conversion of main data sets
 School_Zones.sf <- st_as_sf(School_Zones, coords = c("lng", "lat"))
-Collisions.sf <- st_as_sf(Collisions, coords = c("lng", "lat"))
 Schools.sf <- st_as_sf(Schools, coords = c("lng", "lat"))
+
+Collisions.sf <- st_as_sf(Collisions, coords = c("lng", "lat"))
 ```
 
 ```{r}
@@ -111,7 +120,13 @@ overview.map <- leaflet() %>% addTiles() %>%
 
 overview.map
 ```
-#HEATMAP ANALYSIS
+
+
+
+
+
+
+HEATMAP ANALYSIS
 ```{r}
 #leaflet map containing the point locations of 2019 collisions
 collisions.map <- leaflet() %>% addTiles() %>%
@@ -122,8 +137,12 @@ collisions.map
 #setting necessary coords as numeric values
 Collisions$lng <- as.numeric(Collisions$lng)
 Collisions$lat <- as.numeric(Collisions$lat)
+
 Full_Collisions$lng <- as.numeric(Full_Collisions$lng)
 Full_Collisions$lat <- as.numeric(Full_Collisions$lat)
+
+Kid_Collisions$lng <- as.numeric(Kid_Collisions$lng)
+Kid_Collisions$lat <- as.numeric(Kid_Collisions$lat)
 
 #creation of 2019 collisions heatmap
 collisions.hmap <- leaflet(data = Collisions) %>% 
@@ -166,6 +185,20 @@ fullcollisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
               addMarkers(data = Schools.sf, icon = smallschoolIcon)
 
 ```
+
+
+```{r}
+#2006 – 2019 collisions involving only pedestrian and cyclist collisions involving people aged 0-19 heatmap with school zone markers
+kidcollisions.hmap <- leaflet(data = Kid_Collisions) %>% 
+  setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
+  addTiles()
+
+kidcollisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
+             blur = 40, max = 1, radius = 16) %>%
+              addMarkers(data = School_Zones.sf, icon = smallzonesIcon)
+```
+
+
 
 
 QUADRAT ANALYSIS
@@ -269,7 +302,13 @@ plot(Toronto_Poly)
 Toronto_Poly <- st_as_sf(Toronto_Poly)
 Toronto.owin <- as.owin(as(Toronto_Poly, "Spatial"))
 ```
-#Quadrat Test for Collisions
+
+
+
+
+
+
+Quadrat Test for Collisions
 ```{r}
 collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
 summary(collisions.ppp)
@@ -293,6 +332,10 @@ q_test_coll
 ```{r}
 plot(q_test_coll)
 ```
+
+
+
+
 
 #Quadrat Test for Speed Signs
 
@@ -321,7 +364,12 @@ q_test_sss
 plot(q_test_sss)
 ```
 
-#Quadrat Test for Schools
+
+
+
+
+
+Quadrat Test for Schools
 
 ```{r}
 Schools.ppp <- as.ppp(st_coordinates(SchoolsPCS.sf), W = Toronto.owin)
@@ -351,7 +399,13 @@ q_test_School
 plot(q_test_School)
 ```
 
-# Buffers
+
+
+
+
+
+
+Buffers
 
 ```{r}
 #similar question from stack exchange: https://gis.stackexchange.com/questions/292327/creating-buffers-around-points-and-merging-with-spatialpolygonsdataframe-to-crea
