@@ -48,7 +48,7 @@ library(dplyr)
 knitr::write_bib(file = 'packages.bib')
 ```
 
-```{r load-packages, include=FALSE}
+```{r Import-Files, include=FALSE}
 #importing necessary files from GitHub
 
 collisionsfile="https://raw.githubusercontent.com/JustinBrassard/4GA3_Project_And_Proposal/main/data/Motor%20Vehicle%20Collisions/Motor%20Vehicle%20Collisions%20with%20KSI%20Data%20True.csv?token=AS22SR2ZGZO34O7CM56XBFTANDP44"
@@ -74,7 +74,7 @@ School_Locations_True<-read_csv(url(schoolsfile))
 Toronto_Points<-read_csv(url(boundsfile))
 ```
 
-```{r load-packages, include=FALSE}
+```{r Load-Data, include=FALSE}
 #separation of 'geometry' column into two lng & lat columns for main data sets
 School_Zones <- Stationary_Sign_Locations_True %>%
   separate(geometry, into = c('lng', 'lat'), sep = ', ')
@@ -89,7 +89,7 @@ Kid_Collisions <- Kid_Collisions %>%
   separate(geometry, into = c('lng', 'lat'), sep = ', ')
 ```
 
-```{r load-packages, include=FALSE}
+```{r Conversion-Data, include=FALSE}
 #df to sf conversion of main data sets
 School_Zones.sf <- st_as_sf(School_Zones, coords = c("lng", "lat"))
 Schools.sf <- st_as_sf(Schools, coords = c("lng", "lat"))
