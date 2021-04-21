@@ -133,7 +133,6 @@ Toronto has adapted to be a very diverse city over the last 30 years with a mass
 
 Other cities such as New York, Chicago, Houston, and Los Angeles could have been used, although it was determined that the best choice would be Toronto as it is the area closest to McMaster, and the one that the majority of McMaster students are familiar with. To determine the relationship between collisions and safety zones, sources from the City of Toronto along with transportation trends within the area are examined. Using R-Studio, these data will be plotted on maps and further analyzed to find common trends between the different datasets to determine a conclusion.
 
-The area of Toronto that will be examined is shown below in Figure \ref{fig:Toronto-Bound}
 
 ```{r Toronto-Bound, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE, fig.cap={"\\label{fig:Toronto-Bound}Boundaries of Toronto, Canada (2021)"}}
 #lines 270-300 from code rmd file
@@ -170,6 +169,8 @@ Toronto.owin <- as.owin(as(Toronto_Poly, "Spatial"))
 ```
 
 It is extremely beneficial to choose an area of study that is significant to the researchers. This will allow connections to be made with the areas affected or specific trends that are seen throughout the analysis. Having background knowledge on a specific area or type of data can always allow for an easier, but more in depth analysis. For this instance, the most beneficial would have been a specific area in Toronto, although all of Toronto was chosen in order to have more variety in trends and to be able to truly see the impacts of collisions and school safety zones.
+
+The area of Toronto that will be examined is shown below in Figure. \ref{fig:Toronto-Bound}
 
 # Data & Methods
 
