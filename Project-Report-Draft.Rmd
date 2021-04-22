@@ -335,6 +335,21 @@ Quadrat_Test_of_Schools <- quadrat.test(Schools.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Schools
 ```
 
+```{r Quadrat_Test_Results, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE, table.cap={"\\label{table:Quadrat_Test_Results}Quadrat Test Results for each Variable (2021)"}}
+
+# Create a table displaying Quadrat Results
+Quadrat_Test_Results <- matrix(c(2.2e-16,2.988e-08,2.2e-16,21,21,21,288.9,76.561,195.86),ncol=3,byrow=TRUE)
+colnames(Quadrat_Test_Results) <- c( " Collisions "," Speed Signs "," Schools ")
+rownames(Quadrat_Test_Results) <- c("P-Value","Number of Tiles","Chi-Squared Test X2")
+Quadrat_Test_Results <- as.table(Quadrat_Test_Results)
+Quadrat_Test_Results
+```
+
+
+
+
+
+
 # Analysis
 
 <!-- Discuss p values of q tests. Run g test? -->
