@@ -16,7 +16,7 @@ abstract: This paper reports our analysis of motor vehicle collisions in Toronto
   Canada, and its relationship with the presence of school safety zones. Data were
   obtained from the City of Toronto open data website, as well as the City of Toronto
   Transportation Services department, and 311 Toronto.
-keywords: crash, motor vehicle collisions, schools, spatial analysis
+keywords: "crash, motor vehicle collisions, schools, spatial analysis"
 date: "4/9/2021"
 output:
   pdf_document:
