@@ -178,7 +178,7 @@ The area of Toronto that will be examined is shown below in Figure. \ref{fig:Tor
 
 # Results
 
-```{r GGPLOT1, echo=FALSE, fig.cap={"\\label{fig:Col-SchoolZ}Colliions, Schools and School Zones of Toronto, Canada (2021)"}}
+```{r GGPLOT1, echo=FALSE, fig.cap={"\\label{fig:Col-SchoolZ}Colliions, Schools and School Zones of Toronto, Canada (2006-2019)"}}
 ggplot() +
   geom_sf(data = Schools.sf, color = "grey") +
   geom_sf(data = School_Zones.sf, color = "yellow") +
@@ -212,7 +212,7 @@ smallzonesIcon <- makeIcon(
 )
 ```
 
-```{r leaflet1, echo=FALSE, fig.cap={"\\label{fig:Toronto-DATA}Leaflet of Collisions, Schools and School Zones Toronto, Canada (2021)"}}
+```{r leaflet1, echo=FALSE, fig.cap={"\\label{fig:Toronto-DATA}Leaflet of Collisions, Schools and School Zones Toronto, Canada (2006-2019)"}}
 #Main data sets leaflet
 overview.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon) %>%
