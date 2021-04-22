@@ -346,7 +346,7 @@ Quadrat_Test_of_Speed_Signs <- quadrat.test(speedsigns.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Speed_Signs
 ```
 
-```{r Schools-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Schools}Quadrat of Schools in Toronto, Canada (2006-2019)"}}
+```{r Schools-quadrat, warning=FALSE, echo=FALSE, message=FALSE, results=FALSE, fig.cap={"\\label{fig:Quadrat of Schools}Quadrat of Schools in Toronto, Canada (2006-2019)"}}
 Schools.ppp <- as.ppp(st_coordinates(SchoolsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Schools <- quadratcount(Schools.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Schools)
@@ -364,7 +364,7 @@ Quadrat_Test_Results <- as.table(Quadrat_Test_Results)
 Quadrat_Test_Results
 ```
 
-```{r buffer-prep, echo=FALSE}
+```{r buffer-prep, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
 SZ_km = st_transform(School_ZonesPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
 Coll_km = st_transform(CollisionsPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
 Schools_km = st_transform(SchoolsPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
@@ -418,17 +418,17 @@ dim(School_speed0.25)
 dim(SZ_Coll0.25)
 ```
 
-```{r 0.1-total, echo=FALSE}
+```{r 0.1-total, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
 ggplot() +
   geom_sf(data = School_Coll0.1.sf, color = "red") +
   geom_sf(data = School_speed0.1.sf, color = "green") +
   geom_sf(data = SZ_Coll0.1.sf, color = "black")
 
-School_Coll0.1.sf
-SZ_Coll0.1.sf$address
-dim(School_Coll0.1)
-dim(School_speed0.1)
-dim(SZ_Coll0.1)
+#School_Coll0.1.sf
+#SZ_Coll0.1.sf$address
+#dim(School_Coll0.1)
+#dim(School_speed0.1)
+#dim(SZ_Coll0.1)
 ```
 
 # Analysis
