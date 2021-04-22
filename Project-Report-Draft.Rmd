@@ -108,9 +108,9 @@ To cite references in your bibliography.bib file, use [@item] if you want it to 
 <!--Use "#" for section headers-->
 # Introduction
 
-The goal of this project is to explore the relationships between motor vehicle collisions (strictly involving pedestrians), and school safety zones within Toronto. To draw conclusions, data from various sources have been acquired in order to establish trends from previous years. General trends on this relationship were determined before the data were further analyzed. Having an opportunity to examine these data allowed for some rough predictions to be made in terms of the reasons for these incidents occurring more and less frequently within specific areas of Toronto. For instance, the number of collisions in school safety zones should drop where the speed limit is lower. Further analysis is required to determine if this is the case.
+  The goal of this project is to explore the relationships between motor vehicle collisions (strictly involving pedestrians), and school safety zones within Toronto. To draw conclusions, data from various sources have been acquired in order to establish trends from previous years. General trends on this relationship were determined before the data were further analyzed. Having an opportunity to examine these data allowed for some rough predictions to be made in terms of the reasons for these incidents occurring more and less frequently within specific areas of Toronto. For instance, the number of collisions in school safety zones should drop where the speed limit is lower. Further analysis is required to determine if this is the case.
 
-This is intended to find ways to reduce these incidents as injury and fatality rates are higher in some areas. If fines can be increased in these areas, along with adding additional traffic enforcement, these incidents may be prevented from occurring in the future. There are likely more conclusions and solutions that will be determined as the data is further analyzed as various other factors will be examined, supplementing this general outlook. Overall, having a better insight on this issue can help generate ideas on how to reduce motor collision incidents within school zones in the City of Toronto.
+  This is intended to find ways to reduce these incidents as injury and fatality rates are higher in some areas. If fines can be increased in these areas, along with adding additional traffic enforcement, these incidents may be prevented from occurring in the future. There are likely more conclusions and solutions that will be determined as the data is further analyzed as various other factors will be examined, supplementing this general outlook. Overall, having a better insight on this issue can help generate ideas on how to reduce motor collision incidents within school zones in the City of Toronto.
 
 # Background
 
@@ -174,7 +174,15 @@ The area of Toronto that will be examined is shown below in Figure. \ref{fig:Tor
 
 # Data & Methods
 
-<!-- We could probably mostly copy/paste our Data section from the project proposal and tweek the stuff we changed/added. It doesn't need to be very long IMO -->
+The data for this project is sourced from the City of Toronto Open Data website. The data on the school safety zones is provided by the Transportation Services department of the City of Toronto. This dataset displays points for where the school safety zone radars are located, the speed reading at which the device flashes, the speed limit, as well as other attributes. These school safety zones are used by the Watch Your Speed Program (WYSP). To compliment these data, a detailed count of speeds measured by the aforementioned radars is also used and is also provided by Transportation Services. To give geographical context as to where the schools in Toronto are located, a dataset featuring the location of schools is used. This dataset is provided by 311 Toronto and is collected by the Planning Division of the Toronto District School Board. The primary examination of this project is to analyze the effectiveness of school safety zones. To do this, a dataset featuring motor vehicle collisions is used. This dataset, provided by the Toronto Police Services, features the participants involved in the collision (pedestrians, cyclists, automobiles, etc.), when and where the collision occurred, as well as other key factors such as the visibility at the time of the collision. As previous studies have shown, school safety zones are effective at reducing the number of collisions in the zone. Analyzing the data for Toronto helps verify this notion and can also act as an incentive to improve the school safety zones in Toronto if they are deemed ineffective.
+
+Since data variations occur over the years, more recent data will be used to be as accurate to current as possible. Some of the datasets date as far back as 2006 which could be of benefit to see if there were any improvements or decline over time. Multiple factors will be examined to determine our final conclusions. Quadrat analysis, heat maps, buffer zones around the safety zones, and statistical tests will all be applied.
+
+A GitHub repository was used to store relevant project data, including the City of Toronto data, which was able to be imported into RStudio through the GitHub pathway. The source data used includes the WYSP sign locations, 2006 - 2019 collision locations, and the location of all learning facilities (schools, daycares, montessori etc) within Toronto. This data, including the Toronto boundary polygon, were initially assigned the WGS84 geographic coordinate system geometry, which proved to be an issue with quadrat analysis as that method requires a projected coordinate system. As such, the points of the source data were converted to WGS84’s corresponding UTM zone (UTM 17N), and the northings and easting were then able to be used by the quadrat function. To transform the Toronto boundary polygon geometry it was first converted into polyline segments, points were then spaced at uniform distances along each polyline. These points were then converted to UTM 17N and built back up into the Toronto boundary polygon. This enabled analysis via quadrats.
+
+Quadrat, heatmap, and buffer analysis all provide an insight into the distribution of collisions but in various forms, each with their own specialty. Heatmap analysis is highly qualitative as far as its look into distribution goes. It provides a clear visual of high and low density zones by drawing a coloured circle at each observation, with the colour becoming more intense as these circles overlap. To actually analyze the data, a quantitative approach was also used to, instead of visualizing distribution, understand it through quadrat counts. This works by laying a grid of specified dimensions over an analysis window, in this case the Toronto boundary, and then counting the number of observations in each grid square. Quadrat analysis was also applied to the WYSP locations and the learning facility locations, allowing us to compare and contrast the datasets’ distributions and learn of any major discrepancies in quadrat counts between them. Buffer analysis works via drawing a circle of specified radius around each observation and then counting the observations within that radius; in this case the circle is placed around the WYSP locations and collisions within its buffer are counted. This gives a view into how collisions are distributed relative to the school zone signs, and if existing school zones are helping prevent collisions by deterring unsafe driving practices. With these three analysis methods, it is possible to portray a clear picture of the efficacy of school zones and where new school zones are needed across Toronto.
+
+
 
 # Results
 
@@ -222,7 +230,7 @@ overview.map <- leaflet() %>% addTiles() %>%
 overview.map
 ```
 
-```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map}Heat Map of Collisions with School Zones in Toronto, Canada (2021)"}}
+```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map}Heat Map of Collisions with School Zones in Toronto, Canada (2006-2019)"}}
 #leaflet map containing the point locations of 2019 collisions
 collisions.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon)
@@ -249,7 +257,7 @@ collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
 ```
 
 ```{r kid-collisions-hmap, echo=FALSE}
-#creation of kid collisions heatmap
+#2006 – 2019 collisions involving only pedestrian and cyclist collisions involving people aged 0-19 heatmap with school zone markers
 kid_collisions.hmap <- leaflet(data = Kid_Collisions) %>% 
   setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
   addTiles()
@@ -322,7 +330,7 @@ School_ZonesPCS.sf <- zonescopy.sf
 
 ```
 
-```{r Collisions-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE,fig.cap={"\\label{fig:Quadrat of Collisions} Quadrat of collisions in Toronto, Canada (2021)"}}
+```{r Collisions-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE,fig.cap={"\\label{fig:Quadrat of Collisions} Quadrat of collisions in Toronto, Canada (2006-2019)"}}
 collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Collisions <- quadratcount(collisions.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Collisions)
@@ -330,7 +338,7 @@ Quadrat_Test_of_Collisions <- quadrat.test(collisions.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Collisions
 ```
 
-```{r Speed-Signs-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Speed Signs}Quadrat of Speed Signs in Toronto, Canada (2021)"}}
+```{r Speed-Signs-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Speed Signs}Quadrat of Speed Signs in Toronto, Canada (2006-2019)"}}
 speedsigns.ppp <- as.ppp(st_coordinates(School_ZonesPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Speed_Signs <- quadratcount(speedsigns.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Speed_Signs)
@@ -338,7 +346,7 @@ Quadrat_Test_of_Speed_Signs <- quadrat.test(speedsigns.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Speed_Signs
 ```
 
-```{r Schools-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Schools}Quadrat of Schools in Toronto, Canada (2021)"}}
+```{r Schools-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Schools}Quadrat of Schools in Toronto, Canada (2006-2019)"}}
 Schools.ppp <- as.ppp(st_coordinates(SchoolsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Schools <- quadratcount(Schools.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Schools)
@@ -346,7 +354,7 @@ Quadrat_Test_of_Schools <- quadrat.test(Schools.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Schools
 ```
 
-```{r Quadrat_Test_Results, echo=FALSE, warning=FALSE, message=FALSE,table.cap={"\\label{table:Quadrat_Test_Results}Quadrat Test Results for each Variable (2021)"}}
+```{r Quadrat_Test_Results, echo=FALSE, warning=FALSE, message=FALSE,table.cap={"\\label{tab:Quadrat_Test_Results}Quadrat Test Results for each Variable (2006-2019)"}}
 
 # Create a table displaying Quadrat Results
 Quadrat_Test_Results <- matrix(c(2.2e-16,2.988e-08,2.2e-16,21,21,21,288.9,76.561,195.86),ncol=3,byrow=TRUE)
