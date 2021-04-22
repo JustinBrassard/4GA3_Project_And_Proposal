@@ -2,17 +2,6 @@
 title: "Collisions in Relation to School Safety Zones in Toronto"
 thanks: Paper submitted to complete the requirements of ENVSOCTY 4GA3 Applied Spatial
   Statistics.
-date: "4/9/2021"
-output:
-  pdf_document:
-    template: project-template-default.tex
-  html_document:
-    df_print: paged
-abstract: This paper reports our analysis of motor vehicle collisions in Toronto,
-  Canada, and its relationship with the presence of school safety zones. Data were
-  obtained from the City of Toronto open data website, as well as the City of Toronto
-  Transportation Services department, and 311 Toronto.
-keywords: crash, motor vehicle collisions, schools, spatial analysis
 authors:
 - name: Michel Giese
   student_number: 400010952
@@ -23,6 +12,17 @@ authors:
 - name: Nathan Walschots
   student_number: 400192318
 subject: ENVSOCTY 4GA3
+abstract: This paper reports our analysis of motor vehicle collisions in Toronto,
+  Canada, and its relationship with the presence of school safety zones. Data were
+  obtained from the City of Toronto open data website, as well as the City of Toronto
+  Transportation Services department, and 311 Toronto.
+keywords: crash, motor vehicle collisions, schools, spatial analysis
+date: "4/9/2021"
+output:
+  pdf_document:
+    template: project-template-default.tex
+  html_document:
+    df_print: paged
 bibliography:
 - bibliography.bib
 - packages.bib
