@@ -194,7 +194,7 @@ ggplot() +
   labs(title = "Collisions & Schools & School Zones")
 ```
 
-Below is a leaflet map showcasing all accidents (red), schools (black), and speed signs (purple) present in Toronto from 2006-2020. 
+To begin the research study process, data was collected from various sources corresponding to recent City of Toronto data. The data was combined within a single dataframe in order to see general trends within the data. This included the variables Collisions (Red), Schools (Grey) and Schools Zones (Yellow). For the first step of this process, the variables were all gathered and plotted into one map using GGplot.  
 
 ```{r leaflet-prep, echo=FALSE}
 #icon creation for main leaflet
@@ -219,8 +219,9 @@ smallzonesIcon <- makeIcon(
   iconWidth = 10, iconHeight = 10
 )
 ```
+The following section, Figure. \ref{fig:Col-SchoolZ} Is similar to Figure. \ref{fig:Toronto}. They both show the same variables, although for this map, each variable has a specific symbol corresponding to what it represents. Again, the red symbol represents collisions, the black building represents schools, and the purple school signs represent school zones. This map shows the same data stated previously, although the points are more distinctive due to the symbology and that they are on an actual map rather than a plot. 
 
-```{r leaflet1, echo=FALSE, fig.cap={"\\label{fig:Toronto-DATA}Leaflet of Collisions, Schools and School Zones Toronto, Canada (2006-2019)"}}
+```{r leaflet1, echo=FALSE, fig.cap={"\\label{fig:Toronto}Leaflet of Collisions, Schools and School Zones Toronto, Canada (2006-2019)"}}
 #Main data sets leaflet
 overview.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon) %>%
@@ -230,7 +231,14 @@ overview.map <- leaflet() %>% addTiles() %>%
 overview.map
 ```
 
-```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map}Heat Map of Collisions with School Zones in Toronto, Canada (2006-2019)"}}
+
+
+
+\newpage
+
+A series of heat maps were then created in order to see the differences between all collisions occurring from 2006-2019, as well as collisions strictly involving pedestrians and cyclists in 2019. Figure. \ref{fig:Heat Map1} shows the areas that contained the most collisions within the time frame of 2006-2019. This accounts for pedestrian, vehicles and bicycle collisions all within one heat map. Figure. \ref{fig:Heat Map2} shows the areas involving collisions with pedestrians and cyclists aged 0-19 from the years 2006-2019.
+
+```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map1}Heat Map of Collisions with School Zones in Toronto, Canada (2006-2019)"}}
 #leaflet map containing the point locations of 2019 collisions
 collisions.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon)
@@ -256,7 +264,8 @@ collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 17)
 ```
 
-```{r kid-collisions-hmap, echo=FALSE}
+
+```{r kid-collisions-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map2}Heat Map of Collisions People aged 0-19 in Toronto, Canada (2006-2019)"}}
 #2006 – 2019 collisions involving only pedestrian and cyclist collisions involving people aged 0-19 heatmap with school zone markers
 kid_collisions.hmap <- leaflet(data = Kid_Collisions) %>% 
   setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
@@ -266,6 +275,8 @@ kid_collisions.hmap <- leaflet(data = Kid_Collisions) %>%
 kid_collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 17)
 ```
+
+
 
 ```{r quadrat-prep, include=FALSE}
 #Conversion of WGS84 lat and lng points to corresponding UTM17N eastings and northings
@@ -330,6 +341,13 @@ School_ZonesPCS.sf <- zonescopy.sf
 
 ```
 
+
+\newpage
+
+A quadrat analysis was also done for each variable in order to create a count of each variable within a quadrat count of 25 tiles. Variable 1(Collisions) are shown in Figure. \ref{fig:Quadrat of Collisions}, Variable 2 (Speed Signs) are shown in Figure. \ref{fig:Quadrat of Speed Signs} and Variable 3 (Schools) are shown in Figure. \ref{fig:Quadrat of Schools}. This is beneficial to understand whether or not speed signs have an impact on the number of collisions that occur within school zones. 
+
+
+
 ```{r Collisions-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE,fig.cap={"\\label{fig:Quadrat of Collisions} Quadrat of collisions in Toronto, Canada (2006-2019)"}}
 collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Collisions <- quadratcount(collisions.ppp, nx = 5, ny = 5)
@@ -354,7 +372,10 @@ Quadrat_Test_of_Schools <- quadrat.test(Schools.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Schools
 ```
 
-```{r Quadrat_Test_Results, echo=FALSE, warning=FALSE, message=FALSE,table.cap={"\\label{tab:Quadrat_Test_Results}Quadrat Test Results for each Variable (2006-2019)"}}
+\newpage
+A quadrat test that was conducted afterwards for each individual variable in which is shown in the table below. It states the P-Values determined, the number of tiles, and the Ch-Squared Test (X2) output.The number of tiles remains consistent in order to keep a consistent set number of tiles for each Toronto boundary. This allows easier comparisons to be made within each cell between all variables rather than having to differentiate between cell sizes. 
+
+```{r Quadrat_Test_Results, echo=FALSE, warning=FALSE, message=FALSE}
 
 # Create a table displaying Quadrat Results
 Quadrat_Test_Results <- matrix(c(2.2e-16,2.988e-08,2.2e-16,21,21,21,288.9,76.561,195.86),ncol=3,byrow=TRUE)
@@ -363,6 +384,10 @@ rownames(Quadrat_Test_Results) <- c("P-Value","Number of Tiles","Chi-Squared Tes
 Quadrat_Test_Results <- as.table(Quadrat_Test_Results)
 Quadrat_Test_Results
 ```
+
+
+
+
 
 ```{r buffer-prep, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
 SZ_km = st_transform(School_ZonesPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
@@ -398,7 +423,7 @@ SZ_Coll0.1 = st_intersection(SZ_buffer0.1, Coll_km)
 SZ_Coll0.1.sf <- st_as_sf(SZ_Coll0.1)
 ```
 
-```{r 0.5-total, echo=FALSE}
+```{r 0.5-total, echo=FALSE, fig.cap={"\\label{fig:Buffer 500m} Collisions and speed signs within 500m of schools and Collisions with 500m of Speed signs in Toronto, Canada (2006-2019)"}}
 ggplot() +
   geom_sf(data = School_Coll0.5.sf, color = "red") +
   geom_sf(data = School_speed0.5.sf, color = "green") +
@@ -408,7 +433,7 @@ ggplot() +
 #dim(SZ_Coll0.5)
 ```
 
-```{r 0.25-total, echo=FALSE}
+```{r 0.25-total, echo=FALSE,fig.cap={"\\label{fig:Buffer 250m} Collisions and speed signs within 250m of schools and Collisions with 250m of Speed signs in Toronto, Canada (2006-2019)"}}
 ggplot() +
   geom_sf(data = School_Coll0.25.sf, color = "red") +
   geom_sf(data = School_speed0.25.sf, color = "green") +
@@ -418,7 +443,7 @@ ggplot() +
 #dim(SZ_Coll0.25)
 ```
 
-```{r 0.1-total, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
+```{r 0.1-total, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE,fig.cap={"\\label{fig:Buffer 100m} Collisions and speed signs within 100m of schools and Collisions with 100m of Speed signs in Toronto, Canada (2006-2019)"}}
 ggplot() +
   geom_sf(data = School_Coll0.1.sf, color = "red") +
   geom_sf(data = School_speed0.1.sf, color = "green") +
