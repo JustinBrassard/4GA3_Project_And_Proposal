@@ -194,7 +194,7 @@ ggplot() +
   labs(title = "Collisions, Schools and Speed Signs")
 ```
 
-To begin the research study process, data was collected from various sources corresponding to recent City of Toronto data. The data was combined within a single dataframe in order to see general trends within the data. This included the variables Collisions (Red), Schools (Grey) and Schools Zones (Yellow). For the first step of this process, the variables were all gathered and plotted into one map using GGplot.  
+To begin the research study process, data was collected from various sources corresponding to recent City of Toronto data. The data was combined within a single dataframe in order to see general trends within the data. This included the variables Collisions (Red), Schools (Grey) and Schools Zones (Yellow). For the first step of this process, the variables were all gathered and plotted into one map using ggplot.  
 
 ```{r leaflet-prep, echo=FALSE}
 #icon creation for main leaflet
