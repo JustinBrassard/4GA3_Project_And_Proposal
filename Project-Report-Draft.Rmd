@@ -222,7 +222,7 @@ overview.map <- leaflet() %>% addTiles() %>%
 overview.map
 ```
 
-```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map}Heat Map of Collisions with School Zones in Toronto, Canada (2021)"}}
+```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map}Heat Map of Collisions with School Zones in Toronto, Canada (2006-2019)"}}
 #leaflet map containing the point locations of 2019 collisions
 collisions.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon)
