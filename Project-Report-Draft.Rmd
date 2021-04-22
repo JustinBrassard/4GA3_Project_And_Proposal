@@ -19,10 +19,10 @@ abstract: This paper reports our analysis of motor vehicle collisions in Toronto
 keywords: "crash, motor vehicle collisions, schools, spatial analysis"
 date: "4/9/2021"
 output:
-  pdf_document:
-    template: project-template-default.tex
   html_document:
     df_print: paged
+  pdf_document:
+    template: project-template-default.tex
 bibliography:
 - bibliography.bib
 - packages.bib
@@ -423,7 +423,7 @@ SZ_Coll0.1 = st_intersection(SZ_buffer0.1, Coll_km)
 SZ_Coll0.1.sf <- st_as_sf(SZ_Coll0.1)
 ```
 
-```{r 0.5-total, echo=FALSE, fig.cap={"\\label{fig:Buffer 500m} Collisions and speed signs within 500m of schools and Collisions with 500m of Speed signs in Toronto, Canada (2006-2019)"}}
+```{r 0.5-total, echo=FALSE, fig.cap={"\\label{fig:Buffer 500m} Collisions and speed signs within 500m of schools and Collisions within 500m of Speed signs in Toronto, Canada (2006-2019)"}}
 ggplot() +
   geom_sf(data = School_Coll0.5.sf, color = "red") +
   geom_sf(data = School_speed0.5.sf, color = "green") +
@@ -433,7 +433,7 @@ ggplot() +
 #dim(SZ_Coll0.5)
 ```
 
-```{r 0.25-total, echo=FALSE,fig.cap={"\\label{fig:Buffer 250m} Collisions and speed signs within 250m of schools and Collisions with 250m of Speed signs in Toronto, Canada (2006-2019)"}}
+```{r 0.25-total, echo=FALSE,fig.cap={"\\label{fig:Buffer 250m} Collisions and speed signs within 250m of schools and Collisions within 250m of Speed signs in Toronto, Canada (2006-2019)"}}
 ggplot() +
   geom_sf(data = School_Coll0.25.sf, color = "red") +
   geom_sf(data = School_speed0.25.sf, color = "green") +
@@ -443,7 +443,7 @@ ggplot() +
 #dim(SZ_Coll0.25)
 ```
 
-```{r 0.1-total, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE,fig.cap={"\\label{fig:Buffer 100m} Collisions and speed signs within 100m of schools and Collisions with 100m of Speed signs in Toronto, Canada (2006-2019)"}}
+```{r 0.1-total, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE,fig.cap={"\\label{fig:Buffer 100m} Collisions and speed signs within 100m of schools and Collisions within 100m of Speed signs in Toronto, Canada (2006-2019)"}}
 ggplot() +
   geom_sf(data = School_Coll0.1.sf, color = "red") +
   geom_sf(data = School_speed0.1.sf, color = "green") +
