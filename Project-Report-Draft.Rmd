@@ -311,7 +311,7 @@ School_ZonesPCS.sf <- zonescopy.sf
 #######################################################################################
 ```
 
-```{r Collisions-quadrat, echo=FALSE}
+```{r Collisions-quadrat, warning+FALSE, echo=FALSE}
 collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Collisions <- quadratcount(collisions.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Collisions)
@@ -319,7 +319,7 @@ Quadrat_Test_of_Collisions <- quadrat.test(collisions.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Collisions
 ```
 
-```{r Speed-Signs-quadrat, echo=FALSE}
+```{r Speed-Signs-quadrat, warning=FALSE, echo=FALSE}
 speedsigns.ppp <- as.ppp(st_coordinates(School_ZonesPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Speed_Signs <- quadratcount(speedsigns.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Speed_Signs)
@@ -327,7 +327,7 @@ Quadrat_Test_of_Speed_Signs <- quadrat.test(speedsigns.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Speed_Signs
 ```
 
-```{r Schools-quadrat, echo=FALSE}
+```{r Schools-quadrat, warning=FALSE, echo=FALSE}
 Schools.ppp <- as.ppp(st_coordinates(SchoolsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Schools <- quadratcount(Schools.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Schools)
