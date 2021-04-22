@@ -268,7 +268,7 @@ Collisionscopy.sf[, "geometry"] <- CollisionsPCS.sf[,"geometry"]
 
 #USE 'CollisionsPCS.sf' FOR QUADRAT
 CollisionsPCS.sf <- Collisionscopy.sf
-#######################################################################################
+
 
 SchoolsXY <- Schools %>%
   select(lng, lat)
@@ -288,7 +288,7 @@ Schoolscopy.sf[, "geometry"] <- SchoolsPCS.sf[,"geometry"]
 
 #USE 'SchoolsPCS.sf' FOR QUADRAT
 SchoolsPCS.sf <- Schoolscopy.sf
-#######################################################################################
+
 
 School_ZonesXY <- School_Zones %>%
   select(lng, lat)
@@ -308,7 +308,7 @@ zonescopy.sf[, "geometry"] <- School_ZonesPCS.sf[,"geometry"]
 
 #USE 'School_ZonesPCS.sf' FOR QUADRAT
 School_ZonesPCS.sf <- zonescopy.sf
-#######################################################################################
+
 ```
 
 ```{r Collisions-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE,fig.cap={"\\label{fig:Quadrat of Collisions} Quadrat of collisions in Toronto, Canada (2021)"}}
