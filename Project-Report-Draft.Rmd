@@ -178,7 +178,7 @@ The area of Toronto that will be examined is shown below in Figure. \ref{fig:Tor
 
 # Results
 
-```{r GGPLOT1, include=FALSE}
+```{r GGPLOT1, echo=FALSE}
 ggplot() +
   geom_sf(data = Schools.sf, color = "grey") +
   geom_sf(data = School_Zones.sf, color = "yellow") +
