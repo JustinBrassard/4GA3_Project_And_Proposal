@@ -158,6 +158,15 @@ collisions.hmap <- leaflet(data = Collisions) %>%
 #2019 collisions heatmap 
 collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 17)
+
+#creation of kid collisions heatmap
+kid_collisions.hmap <- leaflet(data = Kid_Collisions) %>% 
+  setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
+  addTiles()
+
+#kid collisions hmap
+kid_collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
+             blur = 40, max = 1, radius = 17)
 ```
 
 
@@ -412,21 +421,179 @@ plot(q_test_School)
 
 Buffers
 
-```{r}
+```{r 0.5-schools-collision-buffer, echo=FALSE, warning=FALSE, message=FALSE}
 #similar question from stack exchange: https://gis.stackexchange.com/questions/292327/creating-buffers-around-points-and-merging-with-spatialpolygonsdataframe-to-crea
-#prequisites: load sf and sp libraries (done)
+#prerequisites: load sf and sp libraries (done)
 #convert data frame and/or sp to sf using st_as_sf (done)
-#plot to make sure nothing has gone wrong using 'target_km = st_transform(target, "+proj=utm +zone=17N +datum=WGS84 +units=km")'
+#set crs using st_crs
+
+st_crs(Coll_km) = st_crs(SZ_km)
+#convert to metric using 'target_km = st_transform(target, "+proj=utm +zone=17N +datum=WGS84 +units=km")'
+#plot to make sure nothing has gone wrong
 SZ_km = st_transform(School_ZonesPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
-SZ_km
+#SZ_km
 
 Coll_km = st_transform(CollisionsPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
-Coll_km
+#Coll_km
 
-#error: cannot transform sfc object with missing crs
-#help with error: https://r-spatial.github.io/sf/reference/st_crs.html
+Schools_km = st_transform(SchoolsPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
+#Schools_km
+
+#create 0.5km buffer
+School_buffer0.5 = st_buffer(Schools_km, 0.5)
+School_Coll0.5 = st_intersection(School_buffer0.5, Coll_km)
+
+#read output
+dim(School_Coll0.5)
+
+School_Coll0.5.sf <- st_as_sf(School_Coll0.5)
+
+ggplot() +
+  geom_sf(data = School_Coll0.5.sf, color = "red")
 ```
 
+```{r 0.25-school-coll-buffer, echo=FALSE}
+#create a 0.25km schools v collisions buffer
+School_buffer0.25 = st_buffer(Schools_km, 0.25)
+School_Coll0.25 = st_intersection(School_buffer0.25, Coll_km)
 
+#read output
+dim(School_Coll0.25)
 
+School_Coll0.25.sf <- st_as_sf(School_Coll0.25)
+
+ggplot() +
+  geom_sf(data = School_Coll0.25.sf, color = "red")
+```
+
+```{r 0.1-school-coll-buffer, echo=FALSE}
+#create a 0.1km schools v collisions buffer
+School_buffer0.1 = st_buffer(Schools_km, 0.1)
+School_Coll0.1 = st_intersection(School_buffer0.1, Coll_km)
+
+#read output
+dim(School_Coll0.1)
+
+School_Coll0.1.sf <- st_as_sf(School_Coll0.1)
+
+ggplot() +
+  geom_sf(data = School_Coll0.1.sf, color = "red")
+```
+
+```{r 0.5-school-speedsign-buffer, echo=FALSE}
+#create a 0.5km schools v speed signs buffer
+School_buffer0.5 = st_buffer(Schools_km, 0.5)
+School_speed0.5 = st_intersection(School_buffer0.5, SZ_km)
+
+#read output
+dim(School_speed0.5)
+
+School_speed0.5.sf <- st_as_sf(School_speed0.5)
+
+ggplot() +
+  geom_sf(data = School_speed0.5.sf, color = "green")
+```
+
+```{r 0.25-school-speedsign-buffer, echo=FALSE}
+#create a 0.25km schools v speed signs buffer
+School_buffer0.25 = st_buffer(Schools_km, 0.25)
+School_speed0.25 = st_intersection(School_buffer0.25, SZ_km)
+
+#read output
+dim(School_speed0.25)
+
+School_speed0.25.sf <- st_as_sf(School_speed0.25)
+
+ggplot() +
+  geom_sf(data = School_speed0.25.sf, color = "green")
+```
+
+```{r 0.1-school-speedsign-buffer, echo=FALSE}
+#create a 0.1km schools v speed signs buffer
+School_buffer0.1 = st_buffer(Schools_km, 0.1)
+School_speed0.1 = st_intersection(School_buffer0.1, SZ_km)
+
+#read output
+dim(School_speed0.1)
+
+School_speed0.1.sf <- st_as_sf(School_speed0.1)
+
+ggplot() +
+  geom_sf(data = School_speed0.1.sf, color = "green")
+```
+
+```{r 0.5-schoolzone-coll-buffer, echo=FALSE}
+#create 0.5km school zone v collisions buffer
+SZ_buffer0.5 = st_buffer(SZ_km, 0.5)
+SZ_Coll0.5 = st_intersection(SZ_buffer0.5, Coll_km)
+
+#read output
+dim(SZ_Coll0.5)
+
+SZ_Coll0.5.sf <- st_as_sf(SZ_Coll0.5)
+
+ggplot() +
+  geom_sf(data = SZ_Coll0.5.sf, color = "black")
+```
+
+```{r 0.25-schoolzone-coll-buffer, echo=FALSE}
+#create 0.25km school zone v collisions buffer
+SZ_buffer0.25 = st_buffer(SZ_km, 0.25)
+SZ_Coll0.25 = st_intersection(SZ_buffer0.25, Coll_km)
+
+#read output
+dim(SZ_Coll0.25)
+
+SZ_Coll0.25.sf <- st_as_sf(SZ_Coll0.25)
+
+ggplot() +
+  geom_sf(data = SZ_Coll0.25.sf, color = "black")
+```
+
+```{r 0.1-schoolzone-coll-buffer, echo=FALSE}
+#create 0.1km school zone v collisions buffer
+SZ_buffer0.1 = st_buffer(SZ_km, 0.1)
+SZ_Coll0.1 = st_intersection(SZ_buffer0.1, Coll_km)
+
+#read output
+dim(SZ_Coll0.1)
+
+SZ_Coll0.1.sf <- st_as_sf(SZ_Coll0.1)
+
+ggplot() +
+  geom_sf(data = SZ_Coll0.1.sf, color = "black")
+```
+
+```{r 0.5-total, echo=FALSE}
+ggplot() +
+  geom_sf(data = School_Coll0.5.sf, color = "red") +
+  geom_sf(data = School_speed0.5.sf, color = "green") +
+  geom_sf(data = SZ_Coll0.5.sf, color = "black")
+dim(School_Coll0.5)
+dim(School_speed0.5)
+dim(SZ_Coll0.5)
+```
+
+```{r 0.25-total, echo=FALSE}
+ggplot() +
+  geom_sf(data = School_Coll0.25.sf, color = "red") +
+  geom_sf(data = School_speed0.25.sf, color = "green") +
+  geom_sf(data = SZ_Coll0.25.sf, color = "black")
+dim(School_Coll0.25)
+dim(School_speed0.25)
+dim(SZ_Coll0.25)
+```
+
+```{r 0.1-total, echo=FALSE}
+ggplot() +
+  geom_sf(data = School_Coll0.1.sf, color = "red") +
+  geom_sf(data = School_speed0.1.sf, color = "green") +
+  geom_sf(data = SZ_Coll0.1.sf, color = "black")
+
+School_Coll0.1.sf
+SZ_Coll0.1.sf$address
+dim(School_Coll0.1)
+dim(School_speed0.1)
+dim(SZ_Coll0.1)
+```
 
