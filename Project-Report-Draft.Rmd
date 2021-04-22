@@ -249,7 +249,7 @@ collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
 ```
 
 ```{r kid-collisions-hmap, echo=FALSE}
-#creation of kid collisions heatmap
+#2006 – 2019 collisions involving only pedestrian and cyclist collisions involving people aged 0-19 heatmap with school zone markers
 kid_collisions.hmap <- leaflet(data = Kid_Collisions) %>% 
   setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
   addTiles()
