@@ -364,9 +364,72 @@ Quadrat_Test_Results <- as.table(Quadrat_Test_Results)
 Quadrat_Test_Results
 ```
 
+```{r buffer-prep, echo=FALSE}
+SZ_km = st_transform(School_ZonesPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
+Coll_km = st_transform(CollisionsPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
+Schools_km = st_transform(SchoolsPCS.sf, "+proj=utm +zone=17N +datum=WGS84 +units=km")
 
+School_buffer0.5 = st_buffer(Schools_km, 0.5)
+School_Coll0.5 = st_intersection(School_buffer0.5, Coll_km)
+School_Coll0.5.sf <- st_as_sf(School_Coll0.5)
+School_buffer0.25 = st_buffer(Schools_km, 0.25)
+School_Coll0.25 = st_intersection(School_buffer0.25, Coll_km)
+School_Coll0.25.sf <- st_as_sf(School_Coll0.25)
+School_buffer0.1 = st_buffer(Schools_km, 0.1)
+School_Coll0.1 = st_intersection(School_buffer0.1, Coll_km)
+School_Coll0.1.sf <- st_as_sf(School_Coll0.1)
+School_buffer0.5 = st_buffer(Schools_km, 0.5)
+School_speed0.5 = st_intersection(School_buffer0.5, SZ_km)
+School_speed0.5.sf <- st_as_sf(School_speed0.5)
+School_buffer0.25 = st_buffer(Schools_km, 0.25)
+School_speed0.25 = st_intersection(School_buffer0.25, SZ_km)
+School_speed0.25.sf <- st_as_sf(School_speed0.25)
+School_buffer0.1 = st_buffer(Schools_km, 0.1)
+School_speed0.1 = st_intersection(School_buffer0.1, SZ_km)
+School_speed0.1.sf <- st_as_sf(School_speed0.1)
+SZ_buffer0.5 = st_buffer(SZ_km, 0.5)
+SZ_Coll0.5 = st_intersection(SZ_buffer0.5, Coll_km)
+SZ_Coll0.5.sf <- st_as_sf(SZ_Coll0.5)
+SZ_buffer0.25 = st_buffer(SZ_km, 0.25)
+SZ_Coll0.25 = st_intersection(SZ_buffer0.25, Coll_km)
+SZ_Coll0.25.sf <- st_as_sf(SZ_Coll0.25)
+SZ_buffer0.1 = st_buffer(SZ_km, 0.1)
+SZ_Coll0.1 = st_intersection(SZ_buffer0.1, Coll_km)
+SZ_Coll0.1.sf <- st_as_sf(SZ_Coll0.1)
+```
 
- 
+```{r 0.5-total, echo=FALSE}
+ggplot() +
+  geom_sf(data = School_Coll0.5.sf, color = "red") +
+  geom_sf(data = School_speed0.5.sf, color = "green") +
+  geom_sf(data = SZ_Coll0.5.sf, color = "black")
+dim(School_Coll0.5)
+dim(School_speed0.5)
+dim(SZ_Coll0.5)
+```
+
+```{r 0.25-total, echo=FALSE}
+ggplot() +
+  geom_sf(data = School_Coll0.25.sf, color = "red") +
+  geom_sf(data = School_speed0.25.sf, color = "green") +
+  geom_sf(data = SZ_Coll0.25.sf, color = "black")
+dim(School_Coll0.25)
+dim(School_speed0.25)
+dim(SZ_Coll0.25)
+```
+
+```{r 0.1-total, echo=FALSE}
+ggplot() +
+  geom_sf(data = School_Coll0.1.sf, color = "red") +
+  geom_sf(data = School_speed0.1.sf, color = "green") +
+  geom_sf(data = SZ_Coll0.1.sf, color = "black")
+
+School_Coll0.1.sf
+SZ_Coll0.1.sf$address
+dim(School_Coll0.1)
+dim(School_speed0.1)
+dim(SZ_Coll0.1)
+```
 
 # Analysis
 
