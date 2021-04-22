@@ -2,7 +2,7 @@
 title: "Collisions in Relation to School Safety Zones in Toronto"
 thanks: Paper submitted to complete the requirements of ENVSOCTY 4GA3 Applied Spatial
   Statistics.
-authors:
+author:
 - name: Michel Giese
   student_number: 400010952
 - name: Justin Brassard
