@@ -322,7 +322,7 @@ School_ZonesPCS.sf <- zonescopy.sf
 
 ```
 
-```{r Collisions-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE,fig.cap={"\\label{fig:Quadrat of Collisions} Quadrat of collisions in Toronto, Canada (2021)"}}
+```{r Collisions-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE,fig.cap={"\\label{fig:Quadrat of Collisions} Quadrat of collisions in Toronto, Canada (2006-2019)"}}
 collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Collisions <- quadratcount(collisions.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Collisions)
@@ -330,7 +330,7 @@ Quadrat_Test_of_Collisions <- quadrat.test(collisions.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Collisions
 ```
 
-```{r Speed-Signs-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Speed Signs}Quadrat of Speed Signs in Toronto, Canada (2021)"}}
+```{r Speed-Signs-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Speed Signs}Quadrat of Speed Signs in Toronto, Canada (2006-2019)"}}
 speedsigns.ppp <- as.ppp(st_coordinates(School_ZonesPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Speed_Signs <- quadratcount(speedsigns.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Speed_Signs)
@@ -338,7 +338,7 @@ Quadrat_Test_of_Speed_Signs <- quadrat.test(speedsigns.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Speed_Signs
 ```
 
-```{r Schools-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Schools}Quadrat of Schools in Toronto, Canada (2021)"}}
+```{r Schools-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Schools}Quadrat of Schools in Toronto, Canada (2006-2019)"}}
 Schools.ppp <- as.ppp(st_coordinates(SchoolsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Schools <- quadratcount(Schools.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Schools)
@@ -346,7 +346,7 @@ Quadrat_Test_of_Schools <- quadrat.test(Schools.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Schools
 ```
 
-```{r Quadrat_Test_Results, echo=FALSE, warning=FALSE, message=FALSE,table.cap={"\\label{table:Quadrat_Test_Results}Quadrat Test Results for each Variable (2021)"}}
+```{r Quadrat_Test_Results, echo=FALSE, warning=FALSE, message=FALSE,table.cap={"\\label{tab:Quadrat_Test_Results}Quadrat Test Results for each Variable (2006-2019)"}}
 
 # Create a table displaying Quadrat Results
 Quadrat_Test_Results <- matrix(c(2.2e-16,2.988e-08,2.2e-16,21,21,21,288.9,76.561,195.86),ncol=3,byrow=TRUE)
