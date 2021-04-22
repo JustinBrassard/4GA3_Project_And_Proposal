@@ -403,9 +403,9 @@ ggplot() +
   geom_sf(data = School_Coll0.5.sf, color = "red") +
   geom_sf(data = School_speed0.5.sf, color = "green") +
   geom_sf(data = SZ_Coll0.5.sf, color = "black")
-dim(School_Coll0.5)
-dim(School_speed0.5)
-dim(SZ_Coll0.5)
+#dim(School_Coll0.5)
+#dim(School_speed0.5)
+#dim(SZ_Coll0.5)
 ```
 
 ```{r 0.25-total, echo=FALSE}
@@ -413,9 +413,9 @@ ggplot() +
   geom_sf(data = School_Coll0.25.sf, color = "red") +
   geom_sf(data = School_speed0.25.sf, color = "green") +
   geom_sf(data = SZ_Coll0.25.sf, color = "black")
-dim(School_Coll0.25)
-dim(School_speed0.25)
-dim(SZ_Coll0.25)
+#dim(School_Coll0.25)
+#dim(School_speed0.25)
+#dim(SZ_Coll0.25)
 ```
 
 ```{r 0.1-total, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE}
