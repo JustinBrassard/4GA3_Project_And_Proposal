@@ -186,14 +186,158 @@ ggplot() +
   labs(title = "Collisions & Schools & School Zones")
 ```
 
-```{r}
+Below is a leaflet map showcasing all accidents (red), schools (black), and speed signs (purple) present in Toronto from 2006-2020. 
 
+```{r leaflet-prep, echo=FALSE}
+#icon creation for main leaflet
+schoolIcon <- makeIcon(
+  iconUrl = "https://www.freeiconspng.com/uploads/school-house-icon-16.png",
+  iconWidth = 20, iconHeight = 20
+)
+smallschoolIcon <- makeIcon(
+  iconUrl = "https://www.freeiconspng.com/uploads/school-house-icon-16.png",
+  iconWidth = 10, iconHeight = 10
+)
+zonesIcon <- makeIcon(
+  iconUrl = "https://www.freeiconspng.com/uploads/school-icon-png-40.png",
+  iconWidth = 20, iconHeight = 20
+)
+collisionsIcon <- makeIcon(
+  iconUrl = "https://www.freeiconspng.com/uploads/-alert-attention-danger-exclamation-safety-warning-icon--icon--33.png",
+  iconWidth = 20, iconHeight = 20
+)
+smallzonesIcon <- makeIcon(
+  iconUrl = "https://www.freeiconspng.com/uploads/school-icon-png-40.png",
+  iconWidth = 10, iconHeight = 10
+)
 ```
 
+```{r leaflet1, echo=FALSE}
+#Main data sets leaflet
+overview.map <- leaflet() %>% addTiles() %>%
+  addMarkers(data = Collisions.sf, icon = collisionsIcon) %>%
+  addMarkers(data = School_Zones.sf, icon = zonesIcon) %>%
+  addMarkers(data = Schools.sf, icon = schoolIcon)
+
+overview.map
+```
+
+```{r 2019-collision-hmap, echo=FALSE}
+#leaflet map containing the point locations of 2019 collisions
+collisions.map <- leaflet() %>% addTiles() %>%
+  addMarkers(data = Collisions.sf, icon = collisionsIcon)
+
+#setting necessary coords as numeric values
+Collisions$lng <- as.numeric(Collisions$lng)
+Collisions$lat <- as.numeric(Collisions$lat)
+
+Full_Collisions$lng <- as.numeric(Full_Collisions$lng)
+Full_Collisions$lat <- as.numeric(Full_Collisions$lat)
+
+Kid_Collisions$lng <- as.numeric(Kid_Collisions$lng)
+Kid_Collisions$lat <- as.numeric(Kid_Collisions$lat)
+
+#creation of 2019 collisions heatmap
+collisions.hmap <- leaflet(data = Collisions) %>% 
+  setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
+  addTiles()
+
+
+#2019 collisions heatmap 
+collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
+             blur = 40, max = 1, radius = 17)
+```
+
+```{r quadrat-prep, include=FALSE}
+#Conversion of WGS84 lat and lng points to corresponding UTM17N eastings and northings
+CollisionsXY <- Collisions %>%
+  select(lng, lat)
+
+CollisionsXY$lat <- as.numeric(CollisionsXY$lat)
+CollisionsXY$lng <- as.numeric(CollisionsXY$lng)
+
+coordinates(CollisionsXY) <- c("lng", "lat")
+proj4string(CollisionsXY) <- CRS("+proj=longlat +datum=WGS84")
+Collisions.trfm <- spTransform(CollisionsXY, CRS("+proj=utm +zone=17 ellps=WGS84"))
+CollisionsPCS <- as(Collisions.trfm, "SpatialPoints")
+
+#USE FOR QUADRAT
+CollisionsPCS.sf <- st_as_sf(CollisionsPCS)
+Collisionscopy.sf <- Collisions.sf
+Collisionscopy.sf[, "geometry"] <- CollisionsPCS.sf[,"geometry"]
+
+#USE 'CollisionsPCS.sf' FOR QUADRAT
+CollisionsPCS.sf <- Collisionscopy.sf
+#######################################################################################
+
+SchoolsXY <- Schools %>%
+  select(lng, lat)
+
+SchoolsXY$lat <- as.numeric(SchoolsXY$lat)
+SchoolsXY$lng <- as.numeric(SchoolsXY$lng)
+
+coordinates(SchoolsXY) <- c("lng", "lat")
+proj4string(SchoolsXY) <- CRS("+proj=longlat +datum=WGS84")
+Schools.trfm <- spTransform(SchoolsXY, CRS("+proj=utm +zone=17 ellps=WGS84"))
+SchoolsPCS <- as(Schools.trfm, "SpatialPoints")
+
+
+SchoolsPCS.sf <- st_as_sf(SchoolsPCS)
+Schoolscopy.sf <- Schools.sf
+Schoolscopy.sf[, "geometry"] <- SchoolsPCS.sf[,"geometry"]
+
+#USE 'SchoolsPCS.sf' FOR QUADRAT
+SchoolsPCS.sf <- Schoolscopy.sf
+#######################################################################################
+
+School_ZonesXY <- School_Zones %>%
+  select(lng, lat)
+
+School_ZonesXY$lat <- as.numeric(School_ZonesXY$lat)
+School_ZonesXY$lng <- as.numeric(School_ZonesXY$lng)
+
+coordinates(School_ZonesXY) <- c("lng", "lat")
+proj4string(School_ZonesXY) <- CRS("+proj=longlat +datum=WGS84")
+School_Zones.trfm <- spTransform(School_ZonesXY, CRS("+proj=utm +zone=17 ellps=WGS84"))
+School_ZonesPCS <- as(School_Zones.trfm, "SpatialPoints")
+
+#USE FOR QUADRAT
+School_ZonesPCS.sf <- st_as_sf(School_ZonesPCS)
+zonescopy.sf <- School_Zones.sf
+zonescopy.sf[, "geometry"] <- School_ZonesPCS.sf[,"geometry"]
+
+#USE 'School_ZonesPCS.sf' FOR QUADRAT
+School_ZonesPCS.sf <- zonescopy.sf
+#######################################################################################
+```
+
+```{r Collisions-quadrat, echo=FALSE}
+collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
+Quadrat_Count_of_Collisions <- quadratcount(collisions.ppp, nx = 5, ny = 6)
+plot(Quadrat_Count_of_Collisions)
+Quadrat_Test_of_Collisions <- quadrat.test(collisions.ppp, nx = 5, ny = 6)
+Quadrat_Test_of_Collisions
+```
+
+```{r Speed-Signs-quadrat, echo=FALSE}
+speedsigns.ppp <- as.ppp(st_coordinates(School_ZonesPCS.sf), W = Toronto.owin)
+Quadrat_Count_of_Speed_Signs <- quadratcount(speedsigns.ppp, nx = 5, ny = 6)
+plot(Quadrat_Count_of_Speed_Signs)
+Quadrat_Test_of_Speed_Signs <- quadrat.test(speedsigns.ppp, nx = 5, ny = 6)
+Quadrat_Test_of_Speed_Signs
+```
+
+```{r Schools-quadrat, echo=FALSE}
+Schools.ppp <- as.ppp(st_coordinates(SchoolsPCS.sf), W = Toronto.owin)
+Quadrat_Count_of_Schools <- quadratcount(Schools.ppp, nx = 5, ny = 6)
+plot(Quadrat_Count_of_Schools)
+Quadrat_Test_of_Schools <- quadrat.test(Schools.ppp, nx = 5, ny = 6)
+Quadrat_Test_of_Schools
+```
 
 # Analysis
 
-<!-- In Figure \ref{fig:annual-dosage}, we notice that the number of opioid pills per capita in Kentucky grew in the period between 2006 and 2014, as the colours appear darker in 2014 when compared to 2006. Regions with higher consumption of opioid pills remain high over the years, corresponding to the darker coloured regions remaining the darkest over time, on the south east of the state. Figure \ref{fig:mean-annual-dosage} illustrates that in the places with the highest levels of pills per capita over this period of time, so many pills were distributed that every person, every child, woman, and man in the county received more than 150 pills per year on average (and in some years more than this!). This does not mean that every single person in those counties was consuming almost three pills per week. But it does give a sobering indication of the flood of opioids that some counties faced. -->
+<!-- Discuss p values of q tests. Run g test? -->
 
 # Conclusion
 
