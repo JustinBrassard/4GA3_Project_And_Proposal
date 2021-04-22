@@ -238,7 +238,7 @@ overview.map
 
 A series of heat maps were then created in order to see the differences between all collisions occurring from 2006-2019, as well as collisions strictly involving pedestrians and cyclists in 2019. Figure. \ref{fig:Heat Map1} shows the areas that contained the most collisions within the time frame of 2006-2019. This accounts for pedestrian, vehicles and bicycle collisions all within one heat map. Figure. \ref{fig:Heat Map2} shows the areas involving collisions with pedestrians and cyclists aged 0-19 from the years 2006-2019.
 
-```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map1}Heat Map of Collisions with School Zones in Toronto, Canada (2006-2019)"}}
+```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map1}Heat Map of Collisions in Toronto, Canada (2006-2019)"}}
 #leaflet map containing the point locations of 2019 collisions
 collisions.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon)
@@ -348,7 +348,7 @@ A quadrat analysis was also done for each variable in order to derive event dens
 
 
 
-```{r Collisions-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE,fig.cap={"\\label{fig:Quadrat of Collisions} Quadrat of collisions in Toronto, Canada (2006-2019)"}}
+```{r Collisions-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE,fig.cap={"\\label{fig:Quadrat of Collisions} Quadrat Count of collisions in Toronto, Canada (2006-2019)"}}
 collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Collisions <- quadratcount(collisions.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Collisions)
@@ -356,7 +356,7 @@ Quadrat_Test_of_Collisions <- quadrat.test(collisions.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Collisions
 ```
 
-```{r Speed-Signs-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Speed Signs}Quadrat of Speed Signs in Toronto, Canada (2006-2019)"}}
+```{r Speed-Signs-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Speed Signs}Quadrat Count of Speed Signs in Toronto, Canada (2006-2019)"}}
 speedsigns.ppp <- as.ppp(st_coordinates(School_ZonesPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Speed_Signs <- quadratcount(speedsigns.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Speed_Signs)
@@ -364,7 +364,7 @@ Quadrat_Test_of_Speed_Signs <- quadrat.test(speedsigns.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Speed_Signs
 ```
 
-```{r Schools-quadrat, warning=FALSE, echo=FALSE, message=FALSE, results=FALSE, fig.cap={"\\label{fig:Quadrat of Schools}Quadrat of Schools in Toronto, Canada (2006-2019)"}}
+```{r Schools-quadrat, warning=FALSE, echo=FALSE, message=FALSE, results=FALSE, fig.cap={"\\label{fig:Quadrat of Schools}Quadrat Count of Schools in Toronto, Canada (2006-2019)"}}
 Schools.ppp <- as.ppp(st_coordinates(SchoolsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Schools <- quadratcount(Schools.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Schools)
