@@ -178,7 +178,7 @@ The area of Toronto that will be examined is shown below in Figure. \ref{fig:Tor
 
 # Results
 
-```{r GGPLOT1, echo=FALSE}
+```{r GGPLOT1, echo=FALSE, fig.cap={"\\label{fig:Col-SchoolZ}Colliions, Schools and School Zones of Toronto, Canada (2021)"}}
 ggplot() +
   geom_sf(data = Schools.sf, color = "grey") +
   geom_sf(data = School_Zones.sf, color = "yellow") +
@@ -212,7 +212,7 @@ smallzonesIcon <- makeIcon(
 )
 ```
 
-```{r leaflet1, echo=FALSE}
+```{r leaflet1, echo=FALSE, fig.cap={"\\label{fig:Toronto-DATA}Leaflet of Collisions, Schools and School Zones Toronto, Canada (2021)"}}
 #Main data sets leaflet
 overview.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon) %>%
@@ -222,7 +222,7 @@ overview.map <- leaflet() %>% addTiles() %>%
 overview.map
 ```
 
-```{r 2019-collision-hmap, echo=FALSE}
+```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map}Heat Map of Collisions with School Zones in Toronto, Canada (2021)"}}
 #leaflet map containing the point locations of 2019 collisions
 collisions.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon)
@@ -311,7 +311,7 @@ School_ZonesPCS.sf <- zonescopy.sf
 #######################################################################################
 ```
 
-```{r Collisions-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE}
+```{r Collisions-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE,fig.cap={"\\label{fig:Quadrat of Collisions} Quadrat of collisions in Toronto, Canada (2021)"}}
 collisions.ppp <- as.ppp(st_coordinates(CollisionsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Collisions <- quadratcount(collisions.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Collisions)
@@ -319,7 +319,7 @@ Quadrat_Test_of_Collisions <- quadrat.test(collisions.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Collisions
 ```
 
-```{r Speed-Signs-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE}
+```{r Speed-Signs-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Speed Signs}Quadrat of Speed Signs in Toronto, Canada (2021)"}}
 speedsigns.ppp <- as.ppp(st_coordinates(School_ZonesPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Speed_Signs <- quadratcount(speedsigns.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Speed_Signs)
@@ -327,7 +327,7 @@ Quadrat_Test_of_Speed_Signs <- quadrat.test(speedsigns.ppp, nx = 5, ny = 5)
 Quadrat_Test_of_Speed_Signs
 ```
 
-```{r Schools-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE}
+```{r Schools-quadrat, warning=FALSE, echo=FALSE,message=FALSE,results=FALSE, fig.cap={"\\label{fig:Quadrat of Schools}Quadrat of Schools in Toronto, Canada (2021)"}}
 Schools.ppp <- as.ppp(st_coordinates(SchoolsPCS.sf), W = Toronto.owin)
 Quadrat_Count_of_Schools <- quadratcount(Schools.ppp, nx = 5, ny = 5)
 plot(Quadrat_Count_of_Schools)
@@ -347,8 +347,7 @@ Quadrat_Test_Results
 
 
 
-
-
+ 
 
 # Analysis
 
