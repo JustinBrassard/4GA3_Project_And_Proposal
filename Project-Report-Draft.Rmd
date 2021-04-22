@@ -248,6 +248,17 @@ collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
              blur = 40, max = 1, radius = 17)
 ```
 
+```{r kid-collisions-hmap, echo=FALSE}
+#creation of kid collisions heatmap
+kid_collisions.hmap <- leaflet(data = Kid_Collisions) %>% 
+  setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
+  addTiles()
+
+#kid collisions hmap
+kid_collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
+             blur = 40, max = 1, radius = 17)
+```
+
 ```{r quadrat-prep, include=FALSE}
 #Conversion of WGS84 lat and lng points to corresponding UTM17N eastings and northings
 CollisionsXY <- Collisions %>%
