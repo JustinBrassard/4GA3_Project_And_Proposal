@@ -200,23 +200,23 @@ To begin the research study process, data was collected from various sources cor
 #icon creation for main leaflet
 schoolIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/school-house-icon-16.png",
-  iconWidth = 20, iconHeight = 20
+  iconWidth = 10, iconHeight = 10
 )
 smallschoolIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/school-house-icon-16.png",
-  iconWidth = 10, iconHeight = 10
+  iconWidth = 05, iconHeight = 05
 )
 zonesIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/school-icon-png-40.png",
-  iconWidth = 20, iconHeight = 20
+  iconWidth = 10, iconHeight = 10
 )
 collisionsIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/-alert-attention-danger-exclamation-safety-warning-icon--icon--33.png",
-  iconWidth = 20, iconHeight = 20
+  iconWidth = 10, iconHeight = 10
 )
 smallzonesIcon <- makeIcon(
   iconUrl = "https://www.freeiconspng.com/uploads/school-icon-png-40.png",
-  iconWidth = 10, iconHeight = 10
+  iconWidth = 05, iconHeight = 05
 )
 ```
 The following section, Figure. \ref{fig:Col-SchoolZ} is similar to Figure. \ref{fig:Toronto}. Each variable has a symbol instead of strictly a color.The red symbol represents collisions, the black building represents schools, and the purple school signs represent school zones. This map shows the same data stated previously, although the points are more distinctive due to the symbology and that they are on an actual map rather than a plot. 
@@ -224,11 +224,15 @@ The following section, Figure. \ref{fig:Col-SchoolZ} is similar to Figure. \ref{
 ```{r leaflet1, echo=FALSE, fig.cap={"\\label{fig:Toronto}Leaflet of Collisions, Schools and Speed Signs Toronto, Canada (2006-2019)"}}
 #Main data sets leaflet
 overview.map <- leaflet() %>% addTiles() %>%
+    setView(lng = -79.38, lat = 43.73, zoom = 10) %>% 
   addMarkers(data = Collisions.sf, icon = collisionsIcon) %>%
   addMarkers(data = School_Zones.sf, icon = zonesIcon) %>%
   addMarkers(data = Schools.sf, icon = schoolIcon)
 
+
 overview.map
+
+
 ```
 
 
@@ -238,7 +242,7 @@ overview.map
 
 A series of heat maps were then created in order to see the differences between all collisions occurring from 2006-2019, as well as collisions strictly involving pedestrians and cyclists in 2019. Figure. \ref{fig:Heat Map1} shows the areas that contained the most collisions within the time frame of 2006-2019. This accounts for pedestrian, vehicles and bicycle collisions all within one heat map. Figure. \ref{fig:Heat Map2} shows the areas involving collisions with pedestrians and cyclists aged 0-19 from the years 2006-2019.
 
-```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map1}Heat Map of Collisions in Toronto, Canada (2006-2019)"}}
+```{r 2019-collision-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map1}Heat Map of All Collisions in Toronto, Canada (2006-2019)"}}
 #leaflet map containing the point locations of 2019 collisions
 collisions.map <- leaflet() %>% addTiles() %>%
   addMarkers(data = Collisions.sf, icon = collisionsIcon)
@@ -255,25 +259,25 @@ Kid_Collisions$lat <- as.numeric(Kid_Collisions$lat)
 
 #creation of 2019 collisions heatmap
 collisions.hmap <- leaflet(data = Collisions) %>% 
-  setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
+  setView(lng = -79.38, lat = 43.73, zoom = 10) %>% 
   addTiles()
 
 
 #2019 collisions heatmap 
 collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
-             blur = 40, max = 1, radius = 17)
+             blur = 39, max = 1, radius = 17)
 ```
 
 
 ```{r kid-collisions-hmap, echo=FALSE, fig.cap={"\\label{fig:Heat Map2}Heat Map of Collisions Involving Pedestrians and Cyclists Aged 0-19 in Toronto, Canada (2006-2019)"}}
 #2006 – 2019 collisions involving only pedestrian and cyclist collisions involving people aged 0-19 heatmap
 kid_collisions.hmap <- leaflet(data = Kid_Collisions) %>% 
-  setView(lng = -79.3, lat = 43.65, zoom = 10) %>% 
+  setView(lng = -79.38, lat = 43.73, zoom = 10) %>% 
   addTiles()
 
 #kid collisions hmap
 kid_collisions.hmap %>% addHeatmap(lng = ~lng, lat = ~lat, intensity = 1,
-             blur = 40, max = 1, radius = 17)
+             blur = 39, max = 1, radius = 17)
 ```
 
 
