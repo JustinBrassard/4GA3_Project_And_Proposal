@@ -19,10 +19,10 @@ abstract: This paper reports our analysis of motor vehicle collisions in Toronto
 keywords: "crash, motor vehicle collisions, schools, spatial analysis"
 date: "4/9/2021"
 output:
-  html_document:
-    df_print: paged
   pdf_document:
     template: project-template-default.tex
+  html_document:
+    df_print: paged
 bibliography:
 - bibliography.bib
 - packages.bib
@@ -110,7 +110,7 @@ To cite references in your bibliography.bib file, use [@item] if you want it to 
 
   The goal of this project is to explore the relationships between motor vehicle collisions (strictly involving pedestrians), and speed reduction zones within Toronto. To draw conclusions, data from various sources have been acquired in order to establish trends from previous years. General trends on this relationship were determined before the data were further analyzed. Having an opportunity to examine these data allowed for some rough predictions to be made in terms of the reasons for these incidents occurring more and less frequently within specific areas of Toronto. For instance, the number of collisions in speed reduction zones should drop where the speed limit is lower. Further analysis is required to determine if this is the case.
 
-  This is intended to find ways to reduce these incidents as injury and fatality rates are higher in some areas. If fines can be increased in these areas, along with adding additional traffic enforcement, these incidents may be prevented from occurring in the future. There are likely more conclusions and solutions that will be determined as the data is further analyzed as various other factors will be examined, supplementing this general outlook. Overall, having a better insight on this issue can help generate ideas on how to reduce motor collision incidents within school zones in the City of Toronto.
+  This analysis is intended to find ways to reduce these incidents as injury and fatality rates are higher in some areas. If fines can be increased in these areas, along with adding additional traffic enforcement, these incidents may be prevented from occurring in the future. There are likely more conclusions and solutions that will be determined as the data is further analyzed as various other factors will be examined, supplementing this general outlook. Overall, having a better insight on this issue can help generate ideas on how to reduce motor collision incidents within school zones in the City of Toronto.
 
 # Background
 
@@ -125,13 +125,13 @@ In conclusion, school zones are effective, but are they effective unilaterally a
 
 The research question asks if there is a direct relationship between collisions involving pedestrians and the presence of speed reduction zones. Due to the proven efficacy of safety zones, it is predicted that these areas will experience fewer collisions than areas without safety zones. Conversely, it is probable that areas that experience more collisions than others will be found to lack adequate safety features.
 
-Several factors may affect the reliability and accuracy of the data analysis conducted. If a safety zone was recently established in an area, it is possible that a significant number of collisions occurred there to necessitate its creation, skewing the number of events in this zone. This is solved by comparing the zone implementation date to the collision event date, both of which are fields present in the collisions shapefile. As well, areas with a higher population density and greater traffic flow are more likely to have collisions. The active hours of a safety zone are also of relevance. Some safety signs are turned off after school hours, raising the speed limit to facilitate greater traffic flow. If collisions occurred at this time, this would give the appearance of greater collisions in a safety zone, when in fact the zone was not active. Fortunately, collision time and zone active hours are recorded in the collision and safety zone shapefiles, respectively, solving this issue. Finally, other roadway conditions play a role in collision frequency, such as lighting, road state (icy, dry, etc.), and visibility. If little correlation is found between safety zones and collisions, perhaps one of these fields will prove more significant.
+Several factors may affect the reliability and accuracy of the data analysis conducted. If a safety zone was recently established in an area, it is possible that a significant number of collisions occurred there to necessitate its creation, skewing the number of events in this zone. This is solved by comparing the zone implementation date to the collision event date, both of which are fields present in the collisions shapefile. As well, areas with a higher population density and greater traffic flow are more likely to have collisions. The active hours of a safety zone are also of relevance. Some safety signs are turned off outside of school hours, raising the speed limit to facilitate greater traffic flow. If collisions occurred at this time, this would give the appearance of greater collisions in a safety zone, when in fact the zone was not active. Fortunately, collision time and zone active hours are recorded in the collision and safety zone shapefiles, respectively, solving this issue. Finally, other roadway conditions play a role in collision frequency, such as lighting, road state (icy, dry, etc.), and visibility. If little correlation is found between safety zones and collisions, perhaps one of these fields will prove more significant.
 
 # Study area
 
-Toronto has adapted to be a very diverse city over the last 30 years with a mass increase in car usage and general population living near the downtown core. As this high density area  has had a dramatic increase in car usage, more collisions are prominent to occur. As Toronto is a city known by all of Ontario, it is beneficial to examine this particular area of study in order to see if there are any trends between car collisions and speed reduction zones. This is of great benefit to all individuals within the surrounding area.The data will go through a series of tests in order to further analyse trends and determine if any changes need to be made or if solutions can be created to solve/reduce them.
+Toronto has adapted to be a very diverse city over the last 30 years with a mass increase in car usage and general population living near the downtown core. As this high density area  has had a dramatic increase in car usage, more collisions are prominent to occur. As Toronto is a city known by all in Ontario, it is beneficial to examine this particular area of study in order to see if there are any trends between car collisions and speed reduction zones. This is of great benefit to all individuals within the surrounding area.The data will go through a series of tests in order to further analyse trends and determine if any changes need to be made or if solutions can be created to solve/reduce them.
 
-Other cities such as New York, Chicago, Houston, and Los Angeles could have been used, although it was determined that the best choice would be Toronto as it is the area closest to McMaster, and the one that the majority of McMaster students are familiar with. To determine the relationship between collisions and safety zones, sources from the City of Toronto along with transportation trends within the area are examined. Using R-Studio, these data will be plotted on maps and further analyzed to find common trends between the different datasets to determine a conclusion.
+Other cities such as New York, Chicago, Houston, and Los Angeles could have been used, although it was determined that the best choice would be Toronto as it is the area closest to McMaster, and the one that the majority of McMaster students are familiar with. Hamilton could have also been chosen, but the data available for Hamilton were deemed insufficient for the types of analysis that were required to make sufficient conclusions about school safety zones. To determine the relationship between collisions and safety zones, sources from the City of Toronto along with transportation trends within the area are examined. Using R-Studio, these data will be plotted on maps and further analyzed to find common trends between the different datasets to determine a conclusion.
 
 
 ```{r Toronto-Bound, echo=FALSE, warning=FALSE, message=FALSE, results=FALSE, fig.cap={"\\label{fig:Toronto-Bound}Boundaries of Toronto, Canada (2021)"}}
@@ -168,7 +168,7 @@ Toronto_Poly <- st_as_sf(Toronto_Poly)
 Toronto.owin <- as.owin(as(Toronto_Poly, "Spatial"))
 ```
 
-It is extremely beneficial to choose an area of study that is significant to the researchers. This will allow connections to be made with the areas affected or specific trends that are seen throughout the analysis. Having background knowledge on a specific area or type of data can always allow for an easier, but more in depth analysis. For this instance, the most beneficial would have been a specific area in Toronto, although all of Toronto was chosen in order to have more variety in trends and to be able to truly see the impacts of collisions and speed reduction zones.
+It is extremely beneficial to choose an area of study that is significant to the researchers. This will allow connections to be made with the areas affected or specific trends that are seen throughout the analysis. Having background knowledge on a specific area or type of data can always allow for an easier, and more in depth analysis. For this instance, the most beneficial would have been a specific area in Toronto, although all of Toronto was chosen in order to have more variety in trends and to be able to truly see the impacts of collisions and speed reduction zones.
 
 The area of Toronto that will be examined is shown below in Figure. \ref{fig:Toronto-Bound}
 
@@ -178,7 +178,7 @@ The data for this project is sourced from the City of Toronto Open Data website.
 
 Since data variations occur over the years, more recent data will be used to be as accurate to current as possible. Some of the datasets date as far back as 2006 which could be of benefit to see if there were any improvements or decline over time. Multiple factors will be examined to determine our final conclusions. Quadrat analysis, heat maps, buffer zones around the safety zones, and statistical tests will all be applied.
 
-A GitHub repository was used to store relevant project data, including the City of Toronto data, which was able to be imported into RStudio through the GitHub pathway. The source data used includes the WYSP sign locations, 2006 - 2019 collision locations, and the location of all learning facilities (schools, daycares, montessori etc) within Toronto. This data, including the Toronto boundary polygon, were initially assigned the WGS84 geographic coordinate system geometry, which proved to be an issue with quadrat analysis as that method requires a projected coordinate system. As such, the points of the source data were converted to WGS84’s corresponding UTM zone (UTM 17N), and the northings and easting were then able to be used by the quadrat function. To transform the Toronto boundary polygon geometry it was first converted into polyline segments, points were then spaced at uniform distances along each polyline. These points were then converted to UTM 17N and built back up into the Toronto boundary polygon. This enabled analysis via quadrats.
+A GitHub repository was used to store relevant project data, including the City of Toronto data, which was able to be imported into RStudio through the GitHub pathway. The source data used includes the WYSP sign locations, 2006 - 2019 collision locations, and the location of all learning facilities (schools, daycares, montessori, etc.) within Toronto. This data, including the Toronto boundary polygon, were initially assigned the WGS84 geographic coordinate system geometry, which proved to be an issue with quadrat analysis as that method requires a projected coordinate system. As such, the points of the source data were converted to WGS84’s corresponding UTM zone (UTM 17N), and the northings and easting were then able to be used by the quadrat function. To transform the Toronto boundary polygon geometry it was first converted into polyline segments, points were then spaced at uniform distances along each polyline. These points were then converted to UTM 17N and built back up into the Toronto boundary polygon. This enabled analysis via quadrats.
 
 Quadrat, heatmap, and buffer analysis all provide an insight into the distribution of collisions but in various forms, each with their own specialty. Heatmap analysis is highly qualitative as far as its look into distribution goes. It provides a clear visual of high and low density zones by drawing a coloured circle at each observation, with the colour becoming more intense as these circles overlap. To actually analyze the data, a quantitative approach was also used to, instead of visualizing distribution, understand it through quadrat counts. This works by laying a grid of specified dimensions over an analysis window, in this case the Toronto boundary, and then counting the number of observations in each grid square. Quadrat analysis was also applied to the WYSP locations and the learning facility locations, allowing us to compare and contrast the datasets’ distributions and learn of any major discrepancies in quadrat counts between them. Buffer analysis works via drawing a circle of specified radius around each observation and then counting the observations within that radius; in this case the circle is placed around the WYSP locations and collisions within its buffer are counted. This gives a view into how collisions are distributed relative to the school zone signs, and if existing school zones are helping prevent collisions by deterring unsafe driving practices. With these three analysis methods, it is possible to portray a clear picture of the efficacy of school zones and where new school zones are needed across Toronto.
 
@@ -423,6 +423,10 @@ SZ_Coll0.1 = st_intersection(SZ_buffer0.1, Coll_km)
 SZ_Coll0.1.sf <- st_as_sf(SZ_Coll0.1)
 ```
 
+
+Finally, buffers were created to analyze correlations at a more local scale, thus examining the data at set distance intervals. Figure. \ref{fig:fig:Buffer 500m} shows collisions (red) and speed signs (green) within 500m of schools and collisions within 500m of speed signs (black). Figure. \ref{fig:fig:Buffer 250m} and Figure. \ref{fig:fig:Buffer 100m} are similar, with buffers of 250m and 100m instead. 
+
+
 ```{r 0.5-total, echo=FALSE, fig.cap={"\\label{fig:Buffer 500m} Collisions and speed signs within 500m of schools and Collisions within 500m of Speed signs in Toronto, Canada (2006-2019)"}}
 ggplot() +
   geom_sf(data = School_Coll0.5.sf, color = "red") +
@@ -456,15 +460,41 @@ ggplot() +
 #dim(SZ_Coll0.1)
 ```
 
+
+
+\newpage
+
+Having created and used various different methods to analyze the data selected by the researchers, it is seen that there are various trends that can be examined. In the analysis, the factors that have been determined will be discussed in more depth along with the correlation between with all the variables. If there are things that can be improved, suggestions will be made along with further inspection of the events that have occurred. 
+
+
+
 # Analysis
 
-<!-- Discuss p values of q tests. Run g test? -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # Conclusion
 
-<!-- Through the data processing methods used, patterns of spatial autocorrelation with opioid drug use in counties in Kentucky were revealed. This was shown by the low $p$-value in the Moran’s I test. A general pattern was found using the local Moran’s I statistic where counties in the north-west had a low number of pills per person surrounded by other counties with low opioid usage. In the south-east, there was a cluster of high opioid usage surrounded by counties with high opioid usage. Regression analysis determined that counties with a higher mean yearly income having lower opioid usage.  It also revealed that there is a higher percentage of people with high school degrees and/or higher educational attainment correlates with a slightly lower number of pills per person in that county.   -->
+The purpose of this study was to determine the efficacy of speed reduction signs, specifically in the city of Toronto. With the use of various analytical techniques, such as quadrat analysis, heatmaps, and buffers, it was shown that school safety signs were mostly effective. The buffer maps that were produced are an effective representation of the efficacy of these school zones. The final map shows only a single collision (shown in black) occurring within 100m of a school safety zone speed sign, while the other collisions (shown in red) that were within 100m of schools were not within 100m of any speed signs. One could conclude that collisions occur with a reduced frequency near speed signs.
 
-<!-- Having conducted the series of data analysis, it can be concluded that there is a causal relationship between education and income and opioid usage whereby increased education and income can result in less opioid usage and resulting consequences. However, it is recommended that further studies be conducted to confirm these trends with a high degree of accuracy. In addition, these studies could focus on the comparison between various states within the United States to further assess how states compare and where more resources should be allocated. -->
+	School safety zones are shown to be effective and should be considered by policymakers looking to implement changes to improve road safety, particularly for areas around schools. However, this study was done on the city of Toronto and the conclusions may not apply to other cities in the same way. In order to make the best use of this study, policymakers and other researchers are encouraged to perform a similar analysis on their area of interest. For the case of cities like Hamilton, municipal governments are encouraged to provide sufficient data for this analysis to be possible for their city.
+
+	Furthermore, future researchers and policymakers may be interested in furthering this analysis on Toronto or performing a similar analysis and improving upon it for another region. For example, performing a buffer analysis with a road network in another software such as ArcGIS Pro would allow the analysts to address the issue with the buffers including areas that are close in terms of euclidean distance but not actual driving distance. Performing a statistical test such as a g-test could give the analysts insight on if collisions are randomly distributed throughout the area of study in relation to speed signs. A kernel density analysis would serve a similar purpose as a quadrat test but would account for variations in the data that may not be detected by a quadrat test. Finally, it may also be helpful to run various simulations on the placement of school safety zone speed signs and assessing their effects on deterring collisions. 
+
+
 
 # References
 311 Toronto (2019). Toronto District School Board Locations. Retrieved from 
