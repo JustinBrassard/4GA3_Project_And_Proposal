@@ -476,14 +476,14 @@ Having created and used various different methods to analyze the data selected b
 Figure. \ref{fig:Col-SchoolZ} shows collisions occurring in 2019. Additionally, it contains schools and speed signs present during this time. This map is useful to gain a general overview of the collision dispersion in Toronto. Collisions appear clustered in specific areas, such as in the downtown core and along major arterial roads. Meanwhile, there are also clusters of schools with no collisions or speed signs, such as in the north-west and north-central areas of the city. This disparity in collision location may be the result of traffic flow (i.e, less traffic in areas devoid of collisions), less pedestrian and cyclist activity, or underreporting of collisions. 
 
 However, from this plot, it does appear as though accidents occur despite the presence of speed signs nearby. In order to reduce the occurrence of collisions, various things can be done. More speed signs can be added closer to schools to reduce speeds and prevent collisions. As well, speed fines can be increased, and more stop signs and stop lights can be added in these areas. Further analysis is required to determine the extent to which speed signs affect collision density.
-
+\newline
 
 
 
 **Collisions, Schools, and Speed Signs Leaflet Map**
 
 This map Figure. \ref{fig:Toronto} is an enhanced version of the previous plot. This is a more useful visualization of the study area, as the symbols used accurately convey the events they represent without the need for a legend. As well, the basemap helps to explain the clustering observed in the previous plot, as more areas devoid of collisions are in fact green space or devoid of major roads. The plot and leaflet are limited in that they present a lot of data without summarizing it in a useful way. For this, heat maps and statistical analysis are required.
-
+\newline
 
 
 
@@ -492,22 +492,21 @@ This map Figure. \ref{fig:Toronto} is an enhanced version of the previous plot. 
 The heat map shown in Figure. \ref{fig:Heat Map1} represents a high density of collisions in red, with a low density in blue. This confirms that some areas have a much higher density of collisions in comparison to others. This may be because there is not enough traffic enforcement within this area or not enough speed signs. These areas can be reduced significantly when the source of the majority of the accidents is determined.
 
 The heat map shown in Figure. \ref{fig:Heat Map2} is specific to pedestrians and cyclists under the age of 20. Contrastingly, the areas with the highest density of collisions for this subset of the population are located east of the downtown core, as well as the north-west corner, near Pearson International Airport. The warmer average colour in this map indicates that collisions involving this subset are more evenly distributed than those in the previous map. It is stipulated that this is a result of the fairly uniform distribution of schools in Toronto. This indicates that there is a significant amount of accidents for this age group within the Toronto boundaries. Despite these observations, it is important to conduct empirical tests, as intuition about a pattern can be deceiving. 
-
+\newline
 
 
 
 **Quadrat Counts of Schools, Speed Signs, and Collisions**
 
 The quadrat count of collisions supports the earlier assertion that collision events are more dense downtown. Predictably, quadrats cut off by the Toronto boundary should contain fewer events, as they have a much smaller area. However, schools are unevenly distributed in Toronto, favoring the south-central and north-central areas of the city. Meanwhile, speed signs are not correlated with either of these distributions at all, as speed sign density is highest in the south-west cells of the city. Many factors may affect this speed sign placement, such as perceived collision risk, severe historical collisions, as well as opposition to speed signs in high-traffic areas. This can be shown through Figure. \ref{fig:Quadrat of Collisions}, Figure. \ref{fig:Quadrat of Speed Signs} and Figure. \ref{fig:Quadrat of Schools}
-
-
+\newline
 
 
 
 **Quadrat Tests of Schools, Speed Signs, and Collisions**
 
 In order to confirm the suspicion that collision density is non-random, quadrat tests were conducted as shown in the table previously. Given the extremely small P-values generated, the dispersion is in fact non-random, and therefore collisions occur within these areas for specific reasons. Finally, a Chi-squared test (X2) value reveals whether each event is independent of neighbouring events. For the most part all events were independent of one another, indicating that few to no collisions caused other events to occur in a similar fashion. 
-
+\newline
 
 
 
@@ -523,7 +522,7 @@ This illustrates how at large scales (such as through quadrat and leaflet map an
 
 
 
-## Conclusion
+# Conclusion
 
 The purpose of this study was to determine the efficacy of speed reduction signs, specifically in the city of Toronto. With the use of various analytical techniques, such as quadrat analysis, heat maps, and buffers, it was shown that school safety signs were mostly effective. The buffer maps that were produced are an effective representation of the efficacy of these school zones. The final map shows only a single collision (shown in black) occurring within 100m of a school safety zone speed sign, while the other collisions (shown in red) that were within 100m of schools were not within 100m of any speed signs. One could conclude that collisions occur with a reduced frequency near speed signs.
 
